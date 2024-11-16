@@ -3,12 +3,128 @@ import json
 
 class PatriciaTrieNode:
     def __init__(self, label=""):
-        self.label = label  # 内容
-        self.children = {}  # 键值对[key,node]
+        self.label = label  # 当前节点的键
+        self.children = {}  # 使用键值对存储子节点（字典）
 
 
-def _common_prefix(str1, str2):
-    # 找到两个字符串的最长公共前缀
+class PatriciaTrie:
+    end_marker = chr(0x00)  # 结束标记符
+
+    def __init__(self):
+        self.root = PatriciaTrieNode()
+
+    def insert(self, m):
+        m += self.end_marker  # 在单词末尾添加结束标记
+        node = self.root
+        while m:
+            found_child = False
+            for key in node.children:
+                child = node.children[key]
+                prefix = _prefix(m, child.label)
+                if prefix:
+                    found_child = True
+                    if prefix == child.label:
+                        # 完全匹配，进入下一个节点
+                        node = child
+                        m = m[len(prefix):]
+                    else:
+                        # 部分匹配，分裂节点
+                        rest = child.label[len(prefix):]
+                        new_node = PatriciaTrieNode(prefix)
+                        new_node.children[rest[0]] = child
+                        child.label = rest
+                        node.children[prefix[0]] = new_node
+                        node = new_node
+                        m = m[len(prefix):]
+                    break
+
+            if not found_child:
+                # 无共同前缀，直接插入
+                new_node = PatriciaTrieNode(m)
+                node.children[m[0]] = new_node
+                return
+
+    def delete(self, m):
+        """删除 Patricia-Trie 中的单词 m"""
+
+        def _merge_if_needed(node):
+            """
+            检查当前节点是否可以合并：
+            - 如果只有一个子节点且当前节点不是结束标记，则合并。
+            """
+            if len(node.children) == 1 :
+                only_child_key, only_child = list(node.children.items())[0]
+                # 合并当前节点和唯一子节点的标签
+                node.label += only_child.label
+                node.children = only_child.children
+        def _delete(node, m):
+            if not m:  # 如果 m 是空字符串
+                if self.end_marker in node.children:
+                    del node.children[self.end_marker]
+                # 如果当前节点没有子节点，可以标记为删除
+                if not node.children:
+                    return None
+
+                _merge_if_needed(node)
+
+                return node
+
+            t = m[0]
+            if t not in node.children:
+                return node  # 如果子节点不存在，直接返回
+
+            child = node.children[t]
+            prefix = _prefix(child.label, m)
+
+            if prefix == child.label and len(prefix) == len(m):  # 找到完整单词
+                if self.end_marker in child.children:
+                    del child.children[self.end_marker]
+                    # 如果子节点没有其他子节点，将其从父节点中删除
+                    if not child.children:
+                        del node.children[t]
+                        return None if not node.children else node
+                    _merge_if_needed(child)
+
+                return node
+
+            if prefix:  # 如果有前缀，继续递归删除
+                result = _delete(child, m[len(prefix):])
+                if result is None:  # 如果子节点被标记为删除
+                    del node.children[t]
+
+            _merge_if_needed(node)
+
+            return node
+
+        # 从根节点开始删除
+        self.root = _delete(self.root, m)
+
+    def to_dict(self, node=None):
+        """将 Patricia-Trie 转换为字典形式"""
+        if node is None:
+            node = self.root
+
+        is_end_of_word = node.label.endswith(self.end_marker)
+        # label = node.label.rstrip(self.end_marker) if is_end_of_word else node.label
+        label=node.label
+
+        result = {"label": label}
+        if is_end_of_word:
+            result["is_end_of_word"] = True
+
+        # 按需对 children 的键排序
+        result["children"] = {key: self.to_dict(child) for key, child in sorted(node.children.items())}
+
+        return result
+
+    def display_as_json(self):
+        """打印 Patricia-Trie 为 JSON 格式"""
+        trie_dict = self.to_dict()
+        print(json.dumps(trie_dict, indent=4))
+
+
+# 找出前缀
+def _prefix(str1, str2):
     min_len = min(len(str1), len(str2))
     for i in range(min_len):
         if str1[i] != str2[i]:
@@ -16,95 +132,15 @@ def _common_prefix(str1, str2):
     return str1[:min_len]
 
 
-def _insert_in_order(children, key, node):
-    # 按字母顺序将新节点插入到 children 中
-    items = list(children.items())
-    for i, (k, v) in enumerate(items):
-        if key < k:
-            # 插入到i的位置
-            items.insert(i, (key, node))
-            break
-    else:
-        # 如果 key 比所有现有键都大，则将其添加到末尾
-        items.append((key, node))
-
-    # 清空原字典并重新按顺序插入
-    children.clear()
-    for k, v in items:
-        children[k] = v
-
-
-class PatriciaTrie:
-    end_marker = chr(0x00)  # 结束标记
-
-    def __init__(self):
-        self.root = PatriciaTrieNode()
-
-    def insert(self, word):
-        word += self.end_marker  # 在单词末尾添加结束标记
-        node = self.root
-        while word:
-            # 查找共同前缀
-            found_child = False
-            for key in node.children:
-                child = node.children[key]
-                prefix = _common_prefix(word, child.label)
-                if prefix:
-                    found_child = True
-                    if prefix == child.label:
-                        # 完全匹配，进入下一个节点
-                        node = child
-                        word = word[len(prefix):]
-                    else:
-                        # 部分匹配，分裂节点
-                        rest = child.label[len(prefix):]
-                        new_node = PatriciaTrieNode(prefix)
-                        new_node.children[rest[0]] = child
-                        child.label = rest
-                        _insert_in_order(node.children, prefix[0], new_node)
-                        node = new_node
-                        word = word[len(prefix):]
-                    break
-
-            if not found_child:
-                # 无共同前缀，直接插（字母顺序）
-                new_node = PatriciaTrieNode(word)
-                _insert_in_order(node.children, word[0], new_node)
-                return
-
-    #将 Patricia-Trie 转换为字典形式
-    def to_dict(self, node=None):
-        if node is None:
-            node = self.root
-
-        # 检查 label 是否有结束标志
-        is_end_of_word = node.label.endswith(self.end_marker)
-        label = node.label.rstrip(self.end_marker) if is_end_of_word else node.label
-
-        result = {
-            "label": label,
-        }
-
-        # 如果是单词结束，添加 is_end_of_word 标志
-        if is_end_of_word:
-            result["is_end_of_word"] = True
-
-        # 添加 children 信息
-        result["children"] = {key: self.to_dict(child) for key, child in node.children.items()}
-
-        return result
-
-    #打印 Patricia-Trie 为 JSON 格式
-    def display_as_json(self):
-        trie_dict = self.to_dict()
-        print(json.dumps(trie_dict, indent=4))
-
-
 # 示例测试
 trie = PatriciaTrie()
-words = ["cat", "car", "cart", "bat", "dog"]
+words = ["cat", "car", "carrrr", "bat","batt", "dog"]
 for word in words:
     trie.insert(word)
 
+
 # 打印 Patricia-Trie 的结构
+trie.display_as_json()
+trie.delete("car")
+print("\nAfter deleting 'car':")
 trie.display_as_json()
