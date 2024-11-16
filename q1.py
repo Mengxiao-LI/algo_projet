@@ -106,8 +106,6 @@ class PatriciaTrie:
                 return False
 
             child = node.children[m[0]]  # 找到对应的键
-
-
             if not m.startswith(child.label):  # 如果标签不匹配，直接返回 False
                 return False
 
@@ -116,6 +114,24 @@ class PatriciaTrie:
 
         # 如果匹配完成，检查是否包含结束标记
         return self.end_marker in node.label
+
+    def get_all_words(self):
+        """从 Patricia-Trie 中获取所有单词并返回一个排序后的列表"""
+        words = []
+
+        def _dfs(node, current_word):
+            # 如果当前节点的标签包含结束标记，添加完整单词到结果中
+            if node.label.endswith(self.end_marker):
+                # 去掉结束标记后添加到结果列表
+                words.append(current_word + node.label.rstrip(self.end_marker))
+
+            # 递归访问子节点
+            for key, child in sorted(node.children.items()):
+                _dfs(child, current_word + node.label)
+
+        # 从根节点开始 DFS
+        _dfs(self.root, "")
+        return sorted(words)
 
     #辅助函数们
     def to_dict(self, node=None):
@@ -151,7 +167,7 @@ def _prefix(str1, str2):
     return str1[:min_len]
 
 
-# 示例测试
+# test
 trie = PatriciaTrie()
 words = ["cat", "car", "carrrr", "bat","batt", "dog"]
 for word in words:
@@ -166,4 +182,25 @@ print("\nAfter deleting 'car':")
 trie.display_as_json()
 print(trie.search("car"))
 print(trie.search("ca"))
+
+# 1.3
+sentence = """A quel genial professeur de dactylographie sommes nous redevables de la superbe phrase ci dessous, un
+modele du genre, que toute dactylo connait par coeur puisque elle fait appel a chacune des touches du
+clavier de la machine a ecrire ?"""
+# 将句子拆分成单词（包括标点符号）
+import re
+words = re.findall(r'\b\w+\b|[^\w\s]', sentence)
+
+# 输出分词结果
+print(words)  # ['A', 'quel', 'genial', 'professeur', 'de', 'dactylographie', ',', 'sommes', '-', 'nous', ...]
+
+# 将分词结果插入 Patricia-Trie
+trie1 = PatriciaTrie()
+for word in words:
+    trie1.insert(word)
+
+# 打印 Patricia-Trie 结构
+trie1.display_as_json()
+print(trie1.get_all_words())
+print(trie.get_all_words())
 
