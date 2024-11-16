@@ -68,6 +68,8 @@ class PatriciaTrie:
                 new_node.is_end_of_word = True
                 return
         node.is_end_of_word = True
+    
+
 
 
 
@@ -77,3 +79,5 @@ words = sentence.split()#分开每个字符
 
 for word in words:
     trie.insert(word)
+
+
