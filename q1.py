@@ -48,10 +48,7 @@ class PatriciaTrie:
         """删除 Patricia-Trie 中的单词 m"""
 
         def _merge_if_needed(node):
-            """
-            检查当前节点是否可以合并：
-            - 如果只有一个子节点且当前节点不是结束标记，则合并。
-            """
+            """检查当前是否可以合并"""
             if len(node.children) == 1 :
                 only_child_key, only_child = list(node.children.items())[0]
                 # 合并当前节点和唯一子节点的标签
@@ -99,6 +96,28 @@ class PatriciaTrie:
         # 从根节点开始删除
         self.root = _delete(self.root, m)
 
+    def search(self, m):
+        """在 Patricia-Trie 中查找单词 m"""
+        m += self.end_marker
+        node = self.root
+        while m:
+            # 如果当前字符不在子节点中/
+            if m[0] not in node.children:
+                return False
+
+            child = node.children[m[0]]  # 找到对应的键
+
+
+            if not m.startswith(child.label):  # 如果标签不匹配，直接返回 False
+                return False
+
+            node = child
+            m = m[len(child.label):]
+
+        # 如果匹配完成，检查是否包含结束标记
+        return self.end_marker in node.label
+
+    #辅助函数们
     def to_dict(self, node=None):
         """将 Patricia-Trie 转换为字典形式"""
         if node is None:
@@ -141,6 +160,10 @@ for word in words:
 
 # 打印 Patricia-Trie 的结构
 trie.display_as_json()
+print(trie.search("car"))
 trie.delete("car")
 print("\nAfter deleting 'car':")
 trie.display_as_json()
+print(trie.search("car"))
+print(trie.search("ca"))
+
