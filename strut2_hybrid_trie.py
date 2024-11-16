@@ -82,23 +82,30 @@ class HybridTrie:
         """ 
         Signature = (HybridTrieNode, str, int) -> HybridTrieNode
         Description = Supprime récursivement un mot dans le Trie hybride.
+        递归地删除混合 Trie 中的某个单词。如果成功删除，则调整树结构以确保效率。
         """
         if node is None:
-            return None
+            return None  # 如果节点不存在，直接返回 None
 
-        char = word[index]
+        char = word[index]  # 当前字符
         if char < node.character:
+            # 字符小于当前节点的字符，进入左子树
             node.left = self._delete(node.left, word, index)
         elif char > node.character:
+            # 字符大于当前节点的字符，进入右子树
             node.right = self._delete(node.right, word, index)
         else:
+            # 字符匹配当前节点
             if index + 1 == len(word):
+                # 如果是单词的最后一个字符，取消单词结束标志
                 node.is_end_of_word = False
             else:
+                # 如果不是单词结尾，进入中间子树
                 node.middle = self._delete(node.middle, word, index + 1)
 
-            # 如果当前节点不再是单词结尾，且没有子节点，则删除节点
+            # 检查当前节点是否成为无用节点
             if not node.is_end_of_word and node.left is None and node.middle is None and node.right is None:
+                # 如果不是单词的结束，且没有子节点，则删除此节点
                 return None
 
         return node
