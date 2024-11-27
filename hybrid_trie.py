@@ -43,7 +43,7 @@ class HybridTrie:
         char = word[index]
         if node is None:
             node = HybridTrieNode(char)
-        print(f"Inserting '{char}' at level {index} -> Current Node: {node.char if node else 'None'}")
+        #print(f"Inserting '{char}' at level {index} -> Current Node: {node.char if node else 'None'}")
 
         if char < node.char:
             node.left = self._insert(node.left, word, index)
@@ -61,7 +61,7 @@ class HybridTrie:
         """将整个树转化为 JSON 格式"""
         if self.root is None:
             return json.dumps({})
-        return json.dumps(self.root.to_dict(), ensure_ascii=False, indent=4)
+        return json.dumps(self.root.to_dict(),indent=4)
 
 
     
@@ -306,6 +306,8 @@ def suppression(arbre, mot):
     arbre.root = _suppression(arbre.root, mot, 0)
 
 
+
+
     
 
 # 测试
@@ -347,6 +349,186 @@ for word in ["cat", "cart"]:
     suppression(trie, word)
     print(f"After deleting '{word}', words: {liste_mots(trie)}")
 
+
+
+################################Question 3.8###########################
+
+print(f"\n\nQuestion 3.8")
+
+
+def is_unbalanced(arbre, depth_threshold=3, balance_threshold=2):
+    """
+    判断混合树是否失衡。
+
+    参数:
+        arbre: 混合树的根节点 (HybridTrie 对象)。
+        depth_threshold: 子树深度差的阈值。
+        balance_threshold: 树的高度与平均深度的比值阈值。
+
+    返回值:
+        True 表示树失衡，False 表示平衡。
+    """
+    max_depth = hauteur(arbre)
+    avg_depth = profondeur_moyenne(arbre)
+    # 如果平均深度为 0，直接返回 False
+    if avg_depth == 0:
+        return False
+    # 判断子树深度差是否过大
+    depth_difference = max_depth_difference(arbre.root)
+    return max_depth / avg_depth > balance_threshold or depth_difference > depth_threshold
+
+
+def max_depth_difference(node):
+    """
+    递归计算当前节点左右子树的深度差。
+    """
+    if node is None:
+        return 0
+    left_depth = hauteur_node(node.left)
+    right_depth = hauteur_node(node.right)
+    # 返回左右子树深度差
+    return abs(left_depth - right_depth)
+
+
+def hauteur_node(node):
+    """
+    计算某个节点的高度。
+    """
+    if node is None:
+        return 0
+    return 1 + max(hauteur_node(node.left), hauteur_node(node.middle), hauteur_node(node.right))
+
+
+def rebalance(arbre):
+    """
+    重新平衡树。
+
+    参数:
+        arbre: 混合树的根节点 (HybridTrie 对象)。
+
+    返回值:
+        平衡后的新树根节点。
+    """
+    words = liste_mots(arbre)  # 获取所有单词
+    words = sorted(set(words))  # 确保去重并排序
+    return build_balanced_tree(words, 0, len(words) - 1)
+
+
+def build_balanced_tree(words, start, end):
+    """
+    使用分治法构建平衡树。
+
+    参数:
+        words: 已排序的单词列表。
+        start: 当前区间起点。
+        end: 当前区间终点。
+
+    返回值:
+        平衡后的根节点。
+    """
+    if start > end:
+        return None
+
+    # 中间索引
+    mid = (start + end) // 2
+    # 获取当前单词的首字符，创建根节点
+    root = HybridTrieNode(words[mid][0])
+    # 如果当前单词是一个字符，则标记该节点为结束
+    root.is_end_of_word = len(words[mid]) == 1
+
+    # 中间子树的处理逻辑
+    if len(words[mid]) > 1:
+        # 构建单词的剩余部分
+        root.middle = build_tree_from_word(words[mid][1:])
+
+    # 左右子树递归分治构建
+    root.left = build_balanced_tree(words, start, mid - 1)
+    root.right = build_balanced_tree(words, mid + 1, end)
+
+    return root
+
+
+def build_tree_from_word(word):
+    """
+    从单个单词构建一条链式子树。
+
+    参数:
+        word: 单词字符串。
+
+    返回值:
+        对应的混合树子树根节点。
+    """
+    if not word:
+        return None
+    root = HybridTrieNode(word[0])
+    root.is_end_of_word = len(word) == 1
+    root.middle = build_tree_from_word(word[1:])
+    return root
+
+
+
+def insert_with_balance(arbre, word, depth_threshold=3, balance_threshold=2):
+    """
+    插入单词并检测是否需要重新平衡。
+
+    参数:
+        arbre: 混合树的根节点 (HybridTrie 对象)。
+        word: 要插入的单词。
+        depth_threshold: 子树深度差的阈值。
+        balance_threshold: 树的高度与平均深度的比值阈值。
+    """
+    if not recherche(arbre, word):  # 避免插入重复单词
+        arbre.insert(word)
+
+    # 检查是否失衡
+    if is_unbalanced(arbre, depth_threshold, balance_threshold):
+        print(f"Tree is unbalanced after inserting '{word}'. Rebalancing...")
+        words = sorted(set(liste_mots(arbre)))  # 去重并排序
+        arbre.root = build_balanced_tree(words, 0, len(words) - 1)  # 重建平衡树
+
+
+
+
+
+# 创建树
+trie = HybridTrie()
+trieBalance = HybridTrie()
+# 插入单词并检测是否需要重新平衡  , "dog", "cat", "cart", "car", "date", "elephant"
+#words = ["bat", "apple", "banana", "cherry", "dog", "cat", "cart", "car", "date", "elephant"]
+
+sentence = """
+A quel genial professeur de dactylographie sommes nous redevables de la superbe phrase ci dessous un
+modele du genre que toute dactylo connait par coeur puisque elle fait appel a chacune des touches du
+clavier de la machine a ecrire Le but du problème consiste à représenter un dictionnaire de mots. Dans cette optique, nous propo-
+sons l’implémentation de deux structures de tries concurrentes puis une étude expérimentale permettant
+de mettre en avant les avantages et inconvénients de chacun des modèles. En plus des implantations
+des structures de données et des primitives de base, nous envisageons une fonction avancée pour chacun
+des modèles Après plusieurs ajouts successifs dans un trie hybride, ce dernier pourrait être plutôt
+déséquilibré. Après avoir expliqué les idées clé pour rendre un tel arbre mieux équilibré, et donné une
+idée du seuil permettant de dire si un arbre est déséquilibré ou non, encoder un algorithme d’ajout de
+mot suivi d’un rééquilibrage si nécessaire
+"""
+# 分词处理并移除标点符号
+import re
+words_from_sentence = re.findall(r"\b\w+\b", sentence.lower())  # 提取单词并转换为小写
+
+for word in words_from_sentence:
+    trie.insert(word)
+    insert_with_balance(trieBalance, word)
+
+
+
+# 检查最终树结构
+print("\n>>> 树的高度:", hauteur(trie))
+print(">>> 平均深度:", profondeur_moyenne(trie))
+
+
+print("\n>>> 平衡后树的高度:", hauteur(trieBalance))
+print(">>> 平衡后平均深度:", profondeur_moyenne(trieBalance))
+
+print(">>> 所有单词:", liste_mots(trie))
+
+#print(trieBalance.to_json())
 
 
 
