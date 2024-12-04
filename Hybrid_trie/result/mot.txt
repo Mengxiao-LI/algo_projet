@@ -1,0 +1,5 @@
+bat
+car
+cart
+cat
+dog
