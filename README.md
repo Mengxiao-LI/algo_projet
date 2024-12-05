@@ -2,7 +2,6 @@
 
 This project implements and compares the **Hybrid Trie** and **Patricia Trie** for encoding and managing word sets from Shakespearean texts.
 
-```markdown
 # Requirements
 
 - **Python 3.9+**
@@ -10,9 +9,9 @@ This project implements and compares the **Hybrid Trie** and **Patricia Trie** f
   - `matplotlib`
   - Standard libraries (`os`, `json`, `time`, `sys`)
 
-Install modules:
-```bash
+- Install modules:
 pip install matplotlib
+
 
 # Directory Structure
 
@@ -25,12 +24,12 @@ project/
 │   ├── result/           # Output directory
 │   └── compare.py        # Main comparison script
 └── README.md
-
+```
 
 # How to Run
 
 ## Run Hybrid Trie Tests
-```bash
+
 python compare/compare.py
 
 
@@ -38,17 +37,20 @@ python compare/compare.py
 
 ./script.sh <command> <x> <file>
 
-Commands:
+- **Commands**:
 
-inserer, suppression, fusion, listeMots, profondeurMoyenne, prefixe.
+- `inserer`, `suppression`, `fusion`, `listeMots`, `profondeurMoyenne`, `prefixe`.
 
-Example:
-./script.sh inserer 1 compare/Shakespeare/hamlet.txt
-./script.sh suppression 1 words_to_delete.txt
-./script.sh fusion 1 trie1.json trie2.json
-./script.sh listeMots 1 trie.json
-./script.sh profondeurMoyenne 1 trie.json
-./script.sh prefixe 1 trie.json pre
+- **Example**:
+```bash
+  ./script.sh inserer 1 compare/Shakespeare/hamlet.txt
+  ./script.sh suppression 1 words_to_delete.txt
+  ./script.sh fusion 1 trie1.json trie2.json
+  ./script.sh listeMots 1 trie.json
+  ./script.sh profondeurMoyenne 1 trie.json
+  ./script.sh prefixe 1 trie.json pre
+
+  ```
 
 
 
