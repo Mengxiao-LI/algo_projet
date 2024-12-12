@@ -1,0 +1,38 @@
+{
+    "label": "",
+    "is_end_of_word": false,
+    "children": {
+        "c": {
+            "label": "ca",
+            "is_end_of_word": false,
+            "children": {
+                "r": {
+                    "label": "r",
+                    "is_end_of_word": true,
+                    "children": {}
+                },
+                "t": {
+                    "label": "ttt",
+                    "is_end_of_word": true,
+                    "children": {}
+                }
+            }
+        },
+        "d": {
+            "label": "d",
+            "is_end_of_word": false,
+            "children": {
+                "a": {
+                    "label": "art",
+                    "is_end_of_word": true,
+                    "children": {}
+                },
+                "o": {
+                    "label": "og",
+                    "is_end_of_word": true,
+                    "children": {}
+                }
+            }
+        }
+    }
+}

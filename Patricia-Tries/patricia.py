@@ -208,8 +208,6 @@ def prefixe(arbre, mot):
     new_arbre.root = node
     return comptage_mots(new_arbre)
 
-
-#
 def suppression(arbre, mot):
     """une fonction qui prend un mot en argument et qui le supprime de l’arbre s’il y figure"""
 
@@ -337,31 +335,167 @@ def json_to_patricia_trie(data):
     trie = PatriciaTrie()
     trie.root = _dict_to_node(data)
     return trie
-# 测试删除功能
-if __name__ == "__main__":
-    # 初始化 Patricia Trie
-    trie = PatriciaTrie()
 
-    # 测试数据
-    words_to_insert = ["cat", "car", "bat", "cart", "dog", "dart"]
-    words_to_delete = ["cat", "car", "cart", "dog", "dart", "bat"]
-    #words_to_delete = ["dart", "dog"]
-    # 插入单词
-    for word in words_to_insert:
+if __name__ == "__main__":
+    # test
+    trie = PatriciaTrie()
+    words = ["cat", "car", "cart", "bat","batt", "dog"]
+    for word in words:
         trie.inserer(word)
 
-    print("Trie after insertion:")
-    trie.display_as_json()
 
-    # 删除单词
-    for word in words_to_delete:
-        print(f"\nDeleting '{word}'...")
-        suppression(trie, word)
-        trie.display_as_json()
+    # 打印 Patricia-Trie 的结构
+    print("there is "+str(comptage_mots(trie))+" mots in the arbre")
+    print("nb Nil in trie "+str(comptage_nil(trie)))
+    print("nb Nil in trie no endmarker "+str(comptage_nil_exclude_endmarker(trie)))
 
-    # 最终检查是否为空
-    print("\nFinal Trie:")
+    print("hauter: "+str(hauteur(trie)))
+    average_depth = profondeurMoyenne(trie)
+    print("Average depth of leaves:", average_depth)
+    print("nb prefix  'ca' = "+str(prefixe(trie,"ca")))
+
+
+
     trie.display_as_json()
+    print("Is car in the tree: "+ str(recherche(trie,"car")))
+    suppression(trie,"car")
+    print("\nAfter deleting 'car':")
+    print("there is "+str(comptage_mots(trie))+" mots in the arbre")
+    trie.display_as_json()
+    print("Is car in the tree: "+str(recherche(trie,"car")))
+    print("Is dfdfdf in the tree: "+str(recherche(trie,"ca")))
     print(liste_mots(trie))
 
+    # 1.3
+    sentence = """A quel genial professeur de dactylographie sommes nous redevables de la superbe phrase ci dessous, un
+    modele du genre, que toute dactylo connait par coeur puisque elle fait appel a chacune des touches du
+    clavier de la machine a ecrire ?"""
+    # 将句子拆分成单词（包括标点符号）
+    import re
+    words = re.findall(r'\b\w+\b|[^\w\s]', sentence)
 
+    # 输出分词结果
+    print(words)  # ['A', 'quel', 'genial', 'professeur', 'de', 'dactylographie', ',', 'sommes', '-', 'nous', ...]
+
+    # 将分词结果插入 Patricia-Trie
+    trie1 = PatriciaTrie()
+    for word in words:
+        trie1.inserer(word)
+
+    # 打印 Patricia-Trie 结构
+    trie1.display_as_json()
+    print(liste_mots(trie1))
+    print("there is "+str(comptage_mots(trie1))+" mots in the arbre1")
+    print("nb Nil in trie no endmarker "+str(comptage_nil_exclude_endmarker(trie1)))
+
+
+    def mots_with_end_marker_as_key(trie):
+        """arbre 中  key 为 end_marker 的节点"""
+
+        result = []
+
+        def _dfs(node, path):
+            # 当前路径上的单词
+            current_word = "".join(path + [node.label.rstrip(trie.end_marker)])
+
+            # 如果 children 中有一个 key 是 end_marker 并且对应的子节点是叶子节点
+            if trie.end_marker in node.children:
+                child = node.children[trie.end_marker]
+                if not child.children:  # 确保是叶子节点
+                    result.append(current_word)
+
+            # 递归遍历子节点
+            for key, child in sorted(node.children.items()):
+                _dfs(child, path + [node.label])
+
+
+        _dfs(trie.root, [])
+        return result
+    nodes_with_end_marker_as_key = mots_with_end_marker_as_key(trie1)
+    print("Nodes with end marker as key:", nodes_with_end_marker_as_key)
+    print("nb prefix 'dactylo' = "+str(prefixe(trie1,"dactylo")))
+
+
+    trie1 = PatriciaTrie()
+    trie2 = PatriciaTrie()
+
+    words1 = ["cat", "car", "cart"]
+    words2 = ["car", "cattt", "dog", "dart"]
+
+    for word in words1:
+        trie1.inserer(word)
+
+    for word in words2:
+        trie2.inserer(word)
+
+    # 合并两棵树
+    print("Trie 1:")
+    trie1.display_as_json()
+
+    print("\nTrie 2:")
+    trie2.display_as_json()
+    fusion = fusion(trie1, trie2)
+    print("\nfusion 3:")
+    fusion.display_as_json()
+#q5
+    json_data = '''
+
+        {
+            "label": "",
+            "is_end_of_word": false,
+            "children": {
+                "b": {
+                    "label": "bat",
+                    "is_end_of_word": true,
+                    "children": {}
+                },
+                "c": {
+                    "label": "ca",
+                    "is_end_of_word": false,
+                    "children": {
+                        "r": {
+                            "label": "r",
+                            "is_end_of_word": true,
+                            "children": {
+                                "t": {
+                                    "label": "t",
+                                    "is_end_of_word": true,
+                                    "children": {}
+                                }
+                            }
+                        },
+                        "t": {
+                            "label": "t",
+                            "is_end_of_word": true,
+                            "children": {}
+                        }
+                    }
+                },
+                "d": {
+                    "label": "d",
+                    "is_end_of_word": false,
+                    "children": {
+                        "a": {
+                            "label": "art",
+                            "is_end_of_word": true,
+                            "children": {}
+                        },
+                        "o": {
+                            "label": "og",
+                            "is_end_of_word": true,
+                            "children": {}
+                        }
+                    }
+                }
+            }
+        }'''
+
+    python_data = json.loads(json_data)
+
+    trie = json_to_patricia_trie(python_data)
+    if trie:
+        trie.display_as_json()
+
+    print("Is car in the tree: "+str(recherche(trie,"car")))
+    print("Is cart in the tree: "+str(recherche(trie,"cart")))
+    print(liste_mots(trie))

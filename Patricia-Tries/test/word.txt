@@ -1,0 +1,6 @@
+cat
+car
+bat
+cart
+dog
+dart
