@@ -1,0 +1,187 @@
+{
+    "henryviii.txt": {
+        "Construction Time (seconds)": 0.07169914245605469,
+        "Height": 27,
+        "Average Depth": 13.658036984352774
+    },
+    "twelfth_night.txt": {
+        "Construction Time (seconds)": 0.05858302116394043,
+        "Height": 32,
+        "Average Depth": 13.66039603960396
+    },
+    "julius_caesar.txt": {
+        "Construction Time (seconds)": 0.05512881278991699,
+        "Height": 27,
+        "Average Depth": 13.05513784461153
+    },
+    "3henryvi.txt": {
+        "Construction Time (seconds)": 0.07144808769226074,
+        "Height": 30,
+        "Average Depth": 13.892111368909513
+    },
+    "tempest.txt": {
+        "Construction Time (seconds)": 0.06872916221618652,
+        "Height": 28,
+        "Average Depth": 13.461413748378728
+    },
+    "cymbeline.txt": {
+        "Construction Time (seconds)": 0.08396100997924805,
+        "Height": 27,
+        "Average Depth": 13.024895242790238
+    },
+    "coriolanus.txt": {
+        "Construction Time (seconds)": 0.07442903518676758,
+        "Height": 26,
+        "Average Depth": 13.049446304403812
+    },
+    "2henryiv.txt": {
+        "Construction Time (seconds)": 0.08040881156921387,
+        "Height": 33,
+        "Average Depth": 14.614181175876862
+    },
+    "pericles.txt": {
+        "Construction Time (seconds)": 0.05337333679199219,
+        "Height": 25,
+        "Average Depth": 12.923664122137405
+    },
+    "1henryvi.txt": {
+        "Construction Time (seconds)": 0.08275580406188965,
+        "Height": 26,
+        "Average Depth": 13.106577181208054
+    },
+    "henryv.txt": {
+        "Construction Time (seconds)": 0.07531905174255371,
+        "Height": 31,
+        "Average Depth": 14.083769633507853
+    },
+    "taming_shrew.txt": {
+        "Construction Time (seconds)": 0.0581209659576416,
+        "Height": 26,
+        "Average Depth": 12.849476024134646
+    },
+    "timon.txt": {
+        "Construction Time (seconds)": 0.05354118347167969,
+        "Height": 27,
+        "Average Depth": 13.633511139002197
+    },
+    "merry_wives.txt": {
+        "Construction Time (seconds)": 0.08776307106018066,
+        "Height": 28,
+        "Average Depth": 13.621706398996237
+    },
+    "othello.txt": {
+        "Construction Time (seconds)": 0.07306098937988281,
+        "Height": 27,
+        "Average Depth": 13.614461118690313
+    },
+    "john.txt": {
+        "Construction Time (seconds)": 0.05950212478637695,
+        "Height": 28,
+        "Average Depth": 13.75821937736398
+    },
+    "richardii.txt": {
+        "Construction Time (seconds)": 0.06327509880065918,
+        "Height": 27,
+        "Average Depth": 13.341019072018218
+    },
+    "cleopatra.txt": {
+        "Construction Time (seconds)": 0.07680821418762207,
+        "Height": 29,
+        "Average Depth": 13.62585933368588
+    },
+    "two_gentlemen.txt": {
+        "Construction Time (seconds)": 0.0830528736114502,
+        "Height": 26,
+        "Average Depth": 12.998862774829416
+    },
+    "midsummer.txt": {
+        "Construction Time (seconds)": 0.04802203178405762,
+        "Height": 26,
+        "Average Depth": 12.83321894303363
+    },
+    "winters_tale.txt": {
+        "Construction Time (seconds)": 0.07300400733947754,
+        "Height": 29,
+        "Average Depth": 14.050888529886914
+    },
+    "titus.txt": {
+        "Construction Time (seconds)": 0.060060739517211914,
+        "Height": 27,
+        "Average Depth": 13.763157894736842
+    },
+    "measure.txt": {
+        "Construction Time (seconds)": 0.0570070743560791,
+        "Height": 25,
+        "Average Depth": 12.241251161350263
+    },
+    "lear.txt": {
+        "Construction Time (seconds)": 0.07527494430541992,
+        "Height": 27,
+        "Average Depth": 13.476166708260545
+    },
+    "richardiii.txt": {
+        "Construction Time (seconds)": 0.1254887580871582,
+        "Height": 26,
+        "Average Depth": 13.318788501026694
+    },
+    "lll.txt": {
+        "Construction Time (seconds)": 0.06088614463806152,
+        "Height": 34,
+        "Average Depth": 12.868847951608469
+    },
+    "2henryvi.txt": {
+        "Construction Time (seconds)": 0.07902288436889648,
+        "Height": 33,
+        "Average Depth": 14.987039390088945
+    },
+    "asyoulikeit.txt": {
+        "Construction Time (seconds)": 0.06522989273071289,
+        "Height": 29,
+        "Average Depth": 14.226498422712934
+    },
+    "1henryiv.txt": {
+        "Construction Time (seconds)": 0.06926417350769043,
+        "Height": 28,
+        "Average Depth": 13.159548751007252
+    },
+    "allswell.txt": {
+        "Construction Time (seconds)": 0.06652402877807617,
+        "Height": 28,
+        "Average Depth": 13.471959858323494
+    },
+    "much_ado.txt": {
+        "Construction Time (seconds)": 0.05743288993835449,
+        "Height": 27,
+        "Average Depth": 13.063639490884073
+    },
+    "troilus_cressida.txt": {
+        "Construction Time (seconds)": 0.13003921508789062,
+        "Height": 28,
+        "Average Depth": 13.85967467831998
+    },
+    "merchant.txt": {
+        "Construction Time (seconds)": 0.1214141845703125,
+        "Height": 29,
+        "Average Depth": 13.368354430379746
+    },
+    "macbeth.txt": {
+        "Construction Time (seconds)": 0.05095982551574707,
+        "Height": 27,
+        "Average Depth": 13.492197253433208
+    },
+    "comedy_errors.txt": {
+        "Construction Time (seconds)": 0.0423738956451416,
+        "Height": 25,
+        "Average Depth": 12.78876127973749
+    },
+    "romeo_juliet.txt": {
+        "Construction Time (seconds)": 0.07102417945861816,
+        "Height": 27,
+        "Average Depth": 13.590973201692524
+    },
+    "hamlet.txt": {
+        "Construction Time (seconds)": 0.08357095718383789,
+        "Height": 26,
+        "Average Depth": 13.532718489240228
+    }
+}
