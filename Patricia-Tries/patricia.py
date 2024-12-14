@@ -198,10 +198,22 @@ def prefixe(arbre, mot):
             return 0  # 如果前缀不在树中
         child = node.children[mot[0]]
         common_prefix = find_mots_prefix(mot, child.label)
-        if common_prefix != child.label:  # 如果前缀部分不匹配
+        if not common_prefix:
+            # 没有公共前缀，直接失败
             return 0
-        node = child
-        mot = mot[len(common_prefix):]
+        if len(common_prefix) == len(child.label):
+            # 完全匹配子节点的 label
+            node = child
+            mot = mot[len(common_prefix):]
+        else:
+            if len(common_prefix) == len(mot):
+                new_arbre = PatriciaTrie()
+                new_arbre.root = child
+                return comptage_mots(new_arbre)
+            else:
+                return 0
+
+
 
     # 匹配成功，从当前节点开始统计单词数量
     new_arbre = PatriciaTrie()
@@ -499,3 +511,4 @@ if __name__ == "__main__":
     print("Is car in the tree: "+str(recherche(trie,"car")))
     print("Is cart in the tree: "+str(recherche(trie,"cart")))
     print(liste_mots(trie))
+    print(prefixe(trie, "c"))
