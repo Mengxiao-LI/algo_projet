@@ -12,38 +12,48 @@ class PatriciaTrie:
 
     def __init__(self):
         self.root = PatriciaTrieNode()
+        self.operation_count = {
+            "insert_comparisons": 0,
+            "search_comparisons": 0,
+            "delete_comparisons": 0
+        }
 
-    def inserer(self, m):
-        m += self.end_marker  # 在单词末尾添加结束标记
+    def inserer(self, mot):
+        mot += self.end_marker  # 在单词末尾添加结束标记
         node = self.root
-        while m:
-            found_child = False
-            for key in node.children:
-                child = node.children[key]
-                prefix = find_mots_prefix(m, child.label)
-                if prefix:
-                    found_child = True
-                    if prefix == child.label:
-                        # 完全匹配，进入下一个节点
-                        node = child
-                        m = m[len(prefix):]
-                    else:
-                        # 部分匹配，分裂节点
-                        rest = child.label[len(prefix):]
-                        new_node = PatriciaTrieNode(prefix)
-                        new_node.children[rest[0]] = child
-                        child.label = rest
-                        node.children[prefix[0]] = new_node
-                        node = new_node
-                        m = m[len(prefix):]
-                    break
 
-            if not found_child:
+        while mot:
+            # 直接按首字符查找是否存在匹配的子节点
+            self.operation_count["insert_comparisons"] += 1 #查找mot【0】
+            if mot[0] in node.children:
+                child = node.children[mot[0]]
+                # prefix = find_mots_prefix(mot, child.label)
+                prefix = find_mots_prefix(
+                    mot,
+                    child.label,
+                    counter_dict=self.operation_count,
+                    counter_key="insert_comparisons"
+                )
+                self.operation_count["insert_comparisons"] += len(prefix)  # 字符逐个比较
+
+                if prefix == child.label:
+                    # 完全匹配，进入下一个节点
+                    node = child
+                    mot = mot[len(prefix):]
+                else:
+                    # 部分匹配，分裂节点
+                    rest = child.label[len(prefix):]
+                    new_node = PatriciaTrieNode(prefix)
+                    new_node.children[rest[0]] = child
+                    child.label = rest
+                    node.children[prefix[0]] = new_node
+                    node = new_node
+                    mot = mot[len(prefix):]
+            else:
                 # 无共同前缀，直接插入
-                new_node = PatriciaTrieNode(m)
-                node.children[m[0]] = new_node
+                new_node = PatriciaTrieNode(mot)
+                node.children[mot[0]] = new_node
                 return
-
 
     #辅助函数们
     def to_dict(self, node=None):
@@ -81,13 +91,25 @@ class PatriciaTrie:
         trie_dict = self.to_dict()
         print(json.dumps(trie_dict, indent=4))
 
-# 找出前缀.
-def find_mots_prefix(str1, str2):
+# # 找出前缀.
+# def find_mots_prefix(str1, str2):
+#     min_len = min(len(str1), len(str2))
+#     for i in range(min_len):
+#         if str1[i] != str2[i]:
+#             return str1[:i]
+#     return str1[:min_len]
+def find_mots_prefix(str1, str2, counter_dict=None, counter_key=None):
     min_len = min(len(str1), len(str2))
     for i in range(min_len):
+        # 如果有计数器传入，则对比较次数自增
+        if counter_dict is not None and counter_key is not None:
+            counter_dict[counter_key] += 1
+
         if str1[i] != str2[i]:
             return str1[:i]
+
     return str1[:min_len]
+
 
 #Question2
 def recherche(arbre, m):
@@ -96,11 +118,21 @@ def recherche(arbre, m):
     node = arbre.root
     while m:
         # 如果当前字符不在子节点中
+        arbre.operation_count["search_comparisons"] += 1
         if m[0] not in node.children:
             return False
 
         child = node.children[m[0]]  # 找到对应的键
-        if not m.startswith(child.label):  # 如果标签不匹配，直接返回 False
+        # 使用find_mots_prefix计算公共前缀，从而统计字符比较次数
+        prefix = find_mots_prefix(
+            m,
+            child.label,
+            counter_dict=arbre.operation_count,
+            counter_key="search_comparisons"
+        )
+
+        # 如果公共前缀长度与child.label长度不一致，说明m不以child.label为前缀
+        if len(prefix) != len(child.label):
             return False
 
         node = child
@@ -243,11 +275,18 @@ def suppression(arbre, mot):
             return node
 
         t = m[0]
+        arbre.operation_count["delete_comparisons"] += 1
         if t not in node.children:
             return node  # 如果子节点不存在，直接返回
 
         child = node.children[t]
-        prefix = find_mots_prefix(child.label, m)
+        #prefix = find_mots_prefix(child.label, m)
+        prefix = find_mots_prefix(
+            child.label,
+            m,
+            counter_dict=arbre.operation_count,
+            counter_key="delete_comparisons"
+        )
 
         if prefix == child.label and len(prefix) == len(m):  # 找到完整匹配的节点
             # 首先尝试从子节点中删除结束标记
