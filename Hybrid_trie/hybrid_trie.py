@@ -1,5 +1,8 @@
 import json
+import os
 import re
+
+#refresh
 
 class HybridTrieNode:
     """
@@ -48,6 +51,11 @@ class HybridTrie:
     """
     def __init__(self):
         self.root = None
+        self.operation_count = {
+            "insert_comparisons": 0,
+            "search_comparisons": 0,
+            "delete_comparisons": 0
+        }
 
     # 插入功能
     def insert(self, word):
@@ -60,8 +68,10 @@ class HybridTrie:
             node = HybridTrieNode(char)
 
         if char < node.char:
+            self.operation_count["insert_comparisons"] += 1  # 记录比较次数
             node.left = self._insert(node.left, word, index)
         elif char > node.char:
+            self.operation_count["insert_comparisons"] += 1
             node.right = self._insert(node.right, word, index)
         else:
             if index + 1 == len(word):
@@ -143,6 +153,7 @@ class HybridTrie:
         if node is None:
             return False
         char = word[index]
+        self.operation_count["search_comparisons"] += 1  # 记录比较次数
         if char < node.char:
             return self._recherche(node.left, word, index)
         elif char > node.char:
@@ -151,6 +162,15 @@ class HybridTrie:
             if index + 1 == len(word):
                 return node.is_end_of_word
             return self._recherche(node.middle, word, index + 1)
+        
+    def comptageMots(self, node):
+        if node is None:
+            return 0
+        count = 1 if node.is_end_of_word else 0
+        count += self.comptageMots(node.left)
+        count += self.comptageMots(node.middle)
+        count += self.comptageMots(node.right)
+        return count
 
     # 列出所有单词
     def liste_mots(self):
@@ -239,17 +259,10 @@ class HybridTrie:
             return self._prefixe(node.right, prefix, index)
         else:
             if index + 1 == len(prefix):
-                return self._count_subtree_words(node.middle)
+                return self.comptageMots(node.middle)
             return self._prefixe(node.middle, prefix, index + 1)
 
-    def _count_subtree_words(self, node):
-        if node is None:
-            return 0
-        count = 1 if node.is_end_of_word else 0
-        count += self._count_subtree_words(node.left)
-        count += self._count_subtree_words(node.middle)
-        count += self._count_subtree_words(node.right)
-        return count
+    
 
     # 保存和加载功能
     def to_json(self, file_path):
@@ -341,3 +354,36 @@ class HybridTrie:
             self.insert(word)
         if self.is_unbalanced(depth_threshold, balance_threshold):
             self.rebalance()
+
+
+
+
+
+if __name__ == "__main__":
+    # 示例句子
+    sentence = """
+    A quel genial professeur de dactylographie sommes nous redevables de la superbe phrase ci-dessous,
+    un modele du genre, que toute dactylo connait par coeur puisque elle fait appel a chacune des touches
+    du clavier de la machine a ecrire ?
+    """
+
+    # 清理和标准化输入
+    words = re.findall(r'\b[a-z]+\b', sentence.lower())  # 提取 ASCII 范围内的单词
+
+    # 构建混合 Trie
+    trie = HybridTrie()
+    for word in words:
+        trie.insert(word)
+
+    # 创建结果文件夹
+    result_folder = "result"
+    os.makedirs(result_folder, exist_ok=True)
+
+    # 保存为 JSON 文件
+    json_file_path = os.path.join(result_folder, "exemple_base.json")
+    trie.to_json(json_file_path)
+    print(f"Hybrid Trie 已成功保存为 '{json_file_path}'")
+
+
+
+

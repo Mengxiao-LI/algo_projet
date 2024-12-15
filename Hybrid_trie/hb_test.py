@@ -2,6 +2,8 @@
 import re
 from hybrid_trie import HybridTrie
 
+#python hb_test.py
+
 # 创建 HybridTrie 实例
 trie = HybridTrie()
 
@@ -36,7 +38,7 @@ print("All words in trie:", all_words)
 
 # 统计单词数量
 print("\n>>> 单词总数:")
-word_count = len(all_words)
+word_count = loaded_trie.comptageMots(loaded_trie.root)
 print("Word count:", word_count)
 
 # 统计 NULL 指针数量
