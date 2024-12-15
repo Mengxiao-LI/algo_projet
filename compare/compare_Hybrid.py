@@ -11,6 +11,7 @@ from hybrid_trie import HybridTrie
 # 更新路径
 input_folder = "./Shakespeare"  # Shakespeare 文件夹路径
 output_folder = "./result"      # 输出结果的文件夹
+test_file = "./test/word.txt"  # 新单词的测试文件路径
 os.makedirs(output_folder, exist_ok=True)
 
 # 初始化计时器和结果
@@ -55,6 +56,22 @@ for filename in os.listdir(input_folder):
                 if word:
                     single_trie.recherche(word)
 
+        # 插入新单词并记录时间
+        # 读取测试单词
+        with open(test_file, "r") as f:
+            test_words = [line.strip().lower() for line in f if line.strip()]
+        for word in test_words:
+            start_time = time.time()
+            single_trie.insert(word)
+            end_time = time.time()
+            insertion_times= end_time - start_time
+        # 删除测试
+        with open(test_file, "r") as file:
+            for line in file:
+                word = line.strip().lower()
+                if word:
+                    single_trie.suppression(word)  # 删除操作
+
         # 保存当前文件的结果
         file_results[filename] = {
             "Word Count": word_count,
@@ -63,6 +80,8 @@ for filename in os.listdir(input_folder):
             "Average Depth": single_trie.profondeur_moyenne(),
             "Insert Comparisons": single_trie.operation_count["insert_comparisons"],
             "Search Comparisons": single_trie.operation_count["search_comparisons"],
+            "Delete Comparisons": single_trie.operation_count["delete_comparisons"],
+            "Insertion NEW LIST WORD Times (milliseconds)": insertion_times* 1000000,
         }
 
 total_end_time = time.time()
@@ -70,7 +89,7 @@ total_end_time = time.time()
 # 统计总体结果
 overall_results = {
     "Total Word Count": sum([result["Word Count"] for result in file_results.values()]),
-    "Total Construction Time (seconds)": total_end_time - start_time_total,
+    "Total Construction Time (seconds)": sum([result["Construction Time (seconds)"] for result in file_results.values()]),
     "Overall Height": overall_trie.hauteur(),
     "Overall Average Depth": overall_trie.profondeur_moyenne(),
 }

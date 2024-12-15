@@ -76,4 +76,22 @@ plot_comparison("Insert Comparisons", hybrid_insert_comparisons, patricia_insert
 plot_comparison("Search Comparisons", hybrid_search_comparisons, patricia_search_comparisons,
                 "Search Comparisons", "Comparison of Search Comparisons", "search_comparisons_comparison.png")
 
+# 删除比较图
+plot_comparison(
+    "Delete Comparisons",
+    [hybrid_file_results[file]["Delete Comparisons"] for file in files],
+    [patricia_file_results[file]["Delete Comparisons"] for file in files],
+    "Delete Comparisons",
+    "Comparison of Delete Comparisons",
+    "delete_comparisons_comparison.png",
+)
+plot_comparison(
+    "Insertion NEW LIST WORD Times",
+    [hybrid_file_results[file]["Insertion NEW LIST WORD Times (milliseconds)"]for file in files],
+    [patricia_file_results[file]["Insertion NEW LIST WORD Times (milliseconds)"] for file in files],
+    "Insertion Times (milliseconds)",
+    "Comparison of Insertion NEW LIST WORD Times",
+    "insertion_new_list_word_times_comparison.png",
+)
+
 print("Comparison charts saved to './result_img' folder.")
