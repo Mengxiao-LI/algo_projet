@@ -76,7 +76,7 @@ def test_methods(words):
     results["ProfondeurMoyenne"] = time.time() - start_time
 
     start_time = time.time()
-    safe_execution(prefixe, patricia_trie, "word", timeout=5)
+    safe_execution(prefixe, patricia_trie, "a", timeout=5)
     results["Prefixe"] = time.time() - start_time
 
     start_time = time.time()
