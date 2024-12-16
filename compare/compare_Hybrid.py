@@ -84,6 +84,20 @@ for filename in os.listdir(input_folder):
                 if word:
                     single_trie.suppression(word)  # 删除操作
 
+        # 删除测试并记录时间
+        delete_times = []
+        with open(test_file, "r") as file:
+            for line in file:
+                word = line.strip().lower()
+                if word:
+                    start_time = time.time()  # 开始时间
+                    single_trie.suppression(word)  # 删除操作
+                    end_time = time.time()  # 结束时间
+                    delete_times.append(end_time - start_time)  # 记录每次删除的时间
+
+        # 计算总删除时间
+        total_delete_time = sum(delete_times)
+
         # 保存当前文件的结果
         file_results[filename] = {
             "Word Count": word_count,
@@ -94,8 +108,10 @@ for filename in os.listdir(input_folder):
             "Insert Comparisons": single_trie.operation_count["insert_comparisons"],
             "Search Comparisons": single_trie.operation_count["search_comparisons"],
             "Delete Comparisons": single_trie.operation_count["delete_comparisons"],
-            "Insertion NEW LIST WORD Times (milliseconds)": insertion_times* 1000000,
+            "Insertion NEW LIST WORD Times (milliseconds)": insertion_times * 1000000,
+            "Total Deletion Time (seconds)": total_delete_time,  # 添加删除时间
         }
+
 
 total_end_time = time.time()
 

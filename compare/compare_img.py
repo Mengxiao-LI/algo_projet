@@ -41,6 +41,11 @@ patricia_insert_comparisons = [patricia_file_results[file]["Insert Comparisons"]
 hybrid_search_comparisons = [hybrid_file_results[file]["Search Comparisons"] for file in files]
 patricia_search_comparisons = [patricia_file_results[file]["Search Comparisons"] for file in files]
 
+# 提取删除时间数据
+hybrid_delete_times = [hybrid_file_results[file]["Total Deletion Time (seconds)"] for file in files]
+patricia_delete_times = [patricia_file_results[file]["Total Deletion Time (seconds)"] for file in files]
+
+
 # 定义绘图函数
 def plot_comparison(metric, hybrid_values, patricia_values, y_label, title, file_name):
     plt.figure(figsize=(12, 6))
@@ -68,10 +73,10 @@ os.makedirs("./result_img", exist_ok=True)
 
 # 绘制对比图
 plot_comparison("Construction Time", hybrid_single_construction_times, patricia_single_construction_times,
-                "Construction Time (seconds)", "Comparison single of Construction Time", "single_construction_time_comparison.png")
+                "Construction Time (seconds)", "Comparison of Construction Time per File", "Construction Time per File.png")
 # 绘制对比图
 plot_comparison("Construction Time", hybrid_all_construction_times, patricia_all_construction_times,
-                "Construction Time (seconds)", "Comparison all  of Construction Time", "all_construction_time_comparison.png")
+                "Construction Time (seconds)", "Comparison of Cumulative Construction Time", "Cumulative Construction Time.png")
 
 plot_comparison("Height", hybrid_heights, patricia_heights,
                 "Trie Height", "Comparison of Trie Heights", "height_comparison.png")
@@ -84,6 +89,17 @@ plot_comparison("Insert Comparisons", hybrid_insert_comparisons, patricia_insert
 
 plot_comparison("Search Comparisons", hybrid_search_comparisons, patricia_search_comparisons,
                 "Search Comparisons", "Comparison of Search Comparisons", "search_comparisons_comparison.png")
+
+# 绘制删除时间的比较图
+plot_comparison(
+    "Deletion Time",
+    hybrid_delete_times,
+    patricia_delete_times,
+    "Deletion Time (seconds)",
+    "Comparison of Deletion Time",
+    "deletion_time_comparison.png"
+)
+
 
 # 删除比较图
 plot_comparison(

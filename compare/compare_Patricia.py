@@ -83,6 +83,21 @@ for filename in os.listdir(input_folder):
                 if word:
                     suppression(single_patricia,word)  # 删除操作
 
+        # 删除测试并记录时间
+        delete_times = []  # 存储每次删除操作的时间
+        with open(test_file, "r") as file:
+            for line in file:
+                word = line.strip().lower()
+                if word:
+                    start_time = time.time()  # 开始时间
+                    suppression(single_patricia, word)  # 删除操作
+                    end_time = time.time()  # 结束时间
+                    delete_times.append(end_time - start_time)  # 记录删除时间
+
+        # 计算总删除时间
+        total_delete_time = sum(delete_times)
+
+
         # 统计结果
         file_results[filename] = {
             "Word Count": word_count,
@@ -94,6 +109,7 @@ for filename in os.listdir(input_folder):
             "Search Comparisons": single_patricia.operation_count["search_comparisons"],
             "Delete Comparisons": single_patricia.operation_count["delete_comparisons"],
             "Insertion NEW LIST WORD Times (milliseconds)": insertion_times* 1000000,
+            "Total Deletion Time (seconds)": total_delete_time,  # 添加删除时间
         }
 
 # 保存每个文件的结果到 JSON 文件
