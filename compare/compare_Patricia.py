@@ -20,6 +20,9 @@ os.makedirs(output_folder, exist_ok=True)
 print("Constructing Patricia Trie...")
 overall_patricia = PatriciaTrie()
 start_time_total = time.time()
+  # 存储 single_patricia 的总构建时间
+overall_patricia_total_time = 0  # 存储 overall_patricia 的总构建时间
+
 
 file_results = {}  # 保存每个文件的结果
 
@@ -28,6 +31,7 @@ for filename in os.listdir(input_folder):
         print(f"Processing {filename}...")
         file_path = os.path.join(input_folder, filename)
         single_patricia = PatriciaTrie()  # 每个文件一个独立的 Patricia Trie
+        single_patricia_total_time = 0
         # 重置计数器
         single_patricia.operation_count = {
             "insert_comparisons": 0,
@@ -36,17 +40,25 @@ for filename in os.listdir(input_folder):
         }
         file_start_time = time.time()  # 开始时间
         word_count = 0
-
-        # 插入单词
+#插入构建
         with open(file_path, "r") as file:
             for line in file:
                 word = line.strip().lower()  # 预处理单词
                 if word:
+                    # 记录 single_patricia 的插入时间
+                    start_time = time.time()
                     single_patricia.inserer(word)  # 插入当前文件的 Patricia Trie
+                    end_time = time.time()
+                    single_patricia_total_time += (end_time - start_time)
+
+                    # 记录 overall_patricia 的插入时间
+                    start_time = time.time()
                     overall_patricia.inserer(word)  # 插入到总体 Patricia Trie
+                    end_time = time.time()
+                    overall_patricia_total_time += (end_time - start_time)
+
                     word_count += 1
 
-        file_end_time = time.time()  # 结束时间
         # 搜索测试
         with open(file_path, "r") as file:
             for line in file:
@@ -74,7 +86,8 @@ for filename in os.listdir(input_folder):
         # 统计结果
         file_results[filename] = {
             "Word Count": word_count,
-            "Construction Time (seconds)": file_end_time - file_start_time,
+            "Single Construction Time (seconds)": single_patricia_total_time,
+            "Overall Construction Time (seconds)": overall_patricia_total_time,
             "Height": hauteur(single_patricia),
             "Average Depth": profondeurMoyenne(single_patricia),
             "Insert Comparisons": single_patricia.operation_count["insert_comparisons"],
@@ -90,7 +103,7 @@ total_end_time = time.time()
 
 overall_results = {
     "Total Word Count": sum([result["Word Count"] for result in file_results.values()]),
-    "Total Construction Time (seconds)": sum([result["Construction Time (seconds)"] for result in file_results.values()]),
+    "Total Construction Time (seconds)": sum([result["Single Construction Time (seconds)"] for result in file_results.values()]),
     "Overall Height": hauteur(overall_patricia),
     "Overall Average Depth": profondeurMoyenne(overall_patricia),
 }

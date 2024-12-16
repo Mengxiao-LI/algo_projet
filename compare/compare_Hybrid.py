@@ -21,12 +21,15 @@ file_results = {}
 print("Constructing Hybrid Trie...")
 overall_trie = HybridTrie()
 start_time_total = time.time()
+ # 存储 single_patricia 的总构建时间
+overall_patricia_total_time = 0
 
 for filename in os.listdir(input_folder):
     if filename.endswith(".txt"):
         print(f"Processing {filename}...")
         file_path = os.path.join(input_folder, filename)
         single_trie = HybridTrie()
+        single_patricia_total_time = 0
 
         # 重置计数器
         single_trie.operation_count = {
@@ -41,13 +44,22 @@ for filename in os.listdir(input_folder):
         # 插入单词
         with open(file_path, "r") as file:
             for line in file:
-                word = line.strip().lower()
+                word = line.strip().lower()  # 预处理单词
                 if word:
-                    single_trie.insert(word)
-                    overall_trie.insert(word)  # 插入总树
+                    # 记录 single_patricia 的插入时间
+                    start_time = time.time()
+                    single_trie.insert(word)  # 插入当前文件的 Patricia Trie
+                    end_time = time.time()
+                    single_patricia_total_time += (end_time - start_time)
+
+                    # 记录 overall_patricia 的插入时间
+                    start_time = time.time()
+                    overall_trie.insert(word)  # 插入到总体 Patricia Trie
+                    end_time = time.time()
+                    overall_patricia_total_time += (end_time - start_time)
+
                     word_count += 1
 
-        file_end_time = time.time()
 
         # 搜索测试
         with open(file_path, "r") as file:
@@ -75,7 +87,8 @@ for filename in os.listdir(input_folder):
         # 保存当前文件的结果
         file_results[filename] = {
             "Word Count": word_count,
-            "Construction Time (seconds)": file_end_time - file_start_time,
+            "Single Construction Time (seconds)": single_patricia_total_time,
+            "Overall Construction Time (seconds)": overall_patricia_total_time,
             "Height": single_trie.hauteur(),
             "Average Depth": single_trie.profondeur_moyenne(),
             "Insert Comparisons": single_trie.operation_count["insert_comparisons"],
@@ -89,7 +102,7 @@ total_end_time = time.time()
 # 统计总体结果
 overall_results = {
     "Total Word Count": sum([result["Word Count"] for result in file_results.values()]),
-    "Total Construction Time (seconds)": sum([result["Construction Time (seconds)"] for result in file_results.values()]),
+    "Total Construction Time (seconds)": sum([result["Single Construction Time (seconds)"] for result in file_results.values()]),
     "Overall Height": overall_trie.hauteur(),
     "Overall Average Depth": overall_trie.profondeur_moyenne(),
 }

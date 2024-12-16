@@ -20,8 +20,14 @@ patricia_overall_results = load_results(patricia_result_folder, "overall_results
 
 # 提取每个文件的对比数据
 files = list(hybrid_file_results.keys())
-hybrid_construction_times = [hybrid_file_results[file]["Construction Time (seconds)"] for file in files]
-patricia_construction_times = [patricia_file_results[file]["Construction Time (seconds)"] for file in files]
+# hybrid_construction_times = [hybrid_file_results[file]["Construction Time (seconds)"] for file in files]
+# patricia_construction_times = [patricia_file_results[file]["Construction Time (seconds)"] for file in files]
+
+hybrid_single_construction_times = [hybrid_file_results[file]["Single Construction Time (seconds)"] for file in files]
+patricia_single_construction_times = [patricia_file_results[file]["Single Construction Time (seconds)"] for file in files]
+
+hybrid_all_construction_times = [hybrid_file_results[file]["Overall Construction Time (seconds)"] for file in files]
+patricia_all_construction_times = [patricia_file_results[file]["Overall Construction Time (seconds)"] for file in files]
 
 hybrid_heights = [hybrid_file_results[file]["Height"] for file in files]
 patricia_heights = [patricia_file_results[file]["Height"] for file in files]
@@ -61,8 +67,11 @@ def plot_comparison(metric, hybrid_values, patricia_values, y_label, title, file
 os.makedirs("./result_img", exist_ok=True)
 
 # 绘制对比图
-plot_comparison("Construction Time", hybrid_construction_times, patricia_construction_times,
-                "Construction Time (seconds)", "Comparison of Construction Time", "construction_time_comparison.png")
+plot_comparison("Construction Time", hybrid_single_construction_times, patricia_single_construction_times,
+                "Construction Time (seconds)", "Comparison single of Construction Time", "single_construction_time_comparison.png")
+# 绘制对比图
+plot_comparison("Construction Time", hybrid_all_construction_times, patricia_all_construction_times,
+                "Construction Time (seconds)", "Comparison all  of Construction Time", "all_construction_time_comparison.png")
 
 plot_comparison("Height", hybrid_heights, patricia_heights,
                 "Trie Height", "Comparison of Trie Heights", "height_comparison.png")
