@@ -10,11 +10,9 @@
 
 #./script.sh inserer 1 Hybrid_trie/words.txt
 #./script.sh suppression 1 Hybrid_trie/result/words_to_delete.txt
-
-#./script.sh fusion 1 tree1.json tree2.json
-#./script.sh listeMots 1 trie.json
-#./script.sh profondeurMoyenne 1 trie.json
-#./script.sh prefixe 1 trie.json prefixe
+#./script.sh listeMots 1 Hybrid_trie/result/trie.json
+#./script.sh profondeurMoyenne 1 Hybrid_trie/result/annexes.json
+#./script.sh prefixe 1 Hybrid_trie/result/annexes.json ca
 
 
 # 检查参数数量是否正确

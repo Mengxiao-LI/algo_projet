@@ -1,13 +1,17 @@
 import os
 import json
+import sys
 from hybrid_trie import HybridTrie  
+if len(sys.argv) < 2:
+    print("Usage: python trie_listeMots.py <file.json>")
+    sys.exit(1)
 
-# 定义输入文件夹和文件路径
-input_folder = "result"  # 输入文件夹
-input_file = os.path.join(input_folder, "trie.json")  # 输入 JSON 文件
+# 获取输入文件名
+input_file = sys.argv[1]
+
 
 # 定义输出文件夹和文件路径
-output_folder = "result"  # 输出文件夹
+output_folder = "Hybrid_trie/result"  # 输出文件夹
 output_file = os.path.join(output_folder, "profondeur.txt")  # 输出文件路径
 
 # 确保输出文件夹存在

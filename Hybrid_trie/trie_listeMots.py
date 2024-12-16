@@ -10,12 +10,11 @@ if len(sys.argv) < 1:
 # 获取输入文件名
 input_file = sys.argv[1]
 
-# 设置输入文件夹和文件路径
-input_folder = "result"  # 输入文件夹
-input_path = os.path.join(input_folder, input_file)
+
+input_path = input_file
 
 # 设置输出文件夹和文件路径
-output_folder = "result"  # 输出文件夹
+output_folder = "Hybrid_trie/result"  # 输出文件夹
 output_file = os.path.join(output_folder, "mot.txt")
 
 # 确保输出文件夹存在

@@ -9,10 +9,10 @@ if len(sys.argv) < 3:
     sys.exit(1)
 
 # 定义输入和输出路径
-input_folder = "result"  # 输入文件夹
-input_file = os.path.join(input_folder, sys.argv[1])  # 从输入文件夹读取文件
+
+input_file = sys.argv[1] # 从输入文件夹读取文件
 prefix = sys.argv[2]
-output_folder = "result"  # 输出文件夹
+output_folder = "Hybrid_trie/result"  # 输出文件夹
 output_file = os.path.join(output_folder, "prefixe.txt")  # 保存结果到 result 文件夹
 
 # 确保输出文件夹存在

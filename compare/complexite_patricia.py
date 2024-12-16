@@ -1,6 +1,5 @@
 import time
 import os
-import json
 import matplotlib.pyplot as plt
 import sys
 import signal
@@ -27,10 +26,15 @@ def safe_execution(func, *args, timeout=10):
     except TimeoutException:
         return float('inf')
 
-def test_methods(input_size):
-    patricia_trie = PatriciaTrie()
-    words = [f"word{i}" for i in range(input_size)]
+def load_words_from_file(file_path, limit):
+    """从单个文件中读取单词，限制最大单词数量"""
+    with open(file_path, 'r', encoding='utf-8') as file:
+        content = file.read().split()
+        return content[:limit]
 
+def test_methods(words):
+    """对指定的单词列表测试 Patricia-Trie 的所有方法"""
+    patricia_trie = PatriciaTrie()
     results = {
         "Recherche": 0,
         "ComptageMots": 0,
@@ -45,43 +49,36 @@ def test_methods(input_size):
     for word in words:
         patricia_trie.inserer(word)
 
-    # Recherche (搜索)
+    # 各种方法测试
     start_time = time.time()
     for word in words:
         safe_execution(recherche, patricia_trie, word, timeout=5)
     results["Recherche"] = time.time() - start_time
 
-    # ComptageMots (统计单词数量)
     start_time = time.time()
     safe_execution(comptage_mots, patricia_trie, timeout=5)
     results["ComptageMots"] = time.time() - start_time
 
-    # ListeMots (列出所有单词)
     start_time = time.time()
     safe_execution(liste_mots, patricia_trie, timeout=5)
     results["ListeMots"] = time.time() - start_time
 
-    # ComptageNil (统计空指针)
     start_time = time.time()
     safe_execution(comptage_nil, patricia_trie, timeout=5)
     results["ComptageNil"] = time.time() - start_time
 
-    # Hauteur (计算高度)
     start_time = time.time()
     safe_execution(hauteur, patricia_trie, timeout=5)
     results["Hauteur"] = time.time() - start_time
 
-    # ProfondeurMoyenne (计算平均深度)
     start_time = time.time()
     safe_execution(profondeurMoyenne, patricia_trie, timeout=5)
     results["ProfondeurMoyenne"] = time.time() - start_time
 
-    # Prefixe (以指定前缀开头的单词数量)
     start_time = time.time()
     safe_execution(prefixe, patricia_trie, "word", timeout=5)
     results["Prefixe"] = time.time() - start_time
 
-    # Suppression (删除所有单词)
     start_time = time.time()
     for word in words:
         safe_execution(suppression, patricia_trie, word, timeout=5)
@@ -89,47 +86,65 @@ def test_methods(input_size):
 
     return results
 
+# 初始化变量
+input_sizes = [100, 500, 1000, 5000, 10000]  # 测试的单词规模
+shakespeare_folder = "../compare/Shakespeare"
+all_results = {method: [0] * len(input_sizes) for method in ["Recherche", "ComptageMots", "ListeMots", "ComptageNil", "Hauteur", "ProfondeurMoyenne", "Prefixe", "Suppression"]}
+file_count = 0  # 记录文件数量，用于计算平均值
 
-# 测试不同输入规模
-input_sizes = [100, 500, 1000, 5000, 10000]
-all_results = {method: [] for method in ["Recherche", "ComptageMots", "ListeMots", "ComptageNil", "Hauteur", "ProfondeurMoyenne", "Prefixe", "Suppression"]}
+# 遍历文件夹中的每个文件
+for filename in os.listdir(shakespeare_folder):
+    file_path = os.path.join(shakespeare_folder, filename)
+    if os.path.isfile(file_path):
+        print(f"Processing file: {filename}")
+        file_count += 1  # 累加文件计数
 
-for input_size in input_sizes:
-    print(f"Testing with input size: {input_size}")
-    results = test_methods(input_size)
-    for method, time_taken in results.items():
-        all_results[method].append(time_taken)
+        # 对每个输入规模进行测试
+        for idx, input_size in enumerate(input_sizes):
+            words = load_words_from_file(file_path, input_size)
+            if not words:  # 如果文件单词不足，跳过
+                continue
+            results = test_methods(words)
+
+            # 累加每种方法的时间
+            for method in all_results.keys():
+                all_results[method][idx] += results[method]
+
+# 对所有文件的测试结果取平均值
+for method in all_results.keys():
+    all_results[method] = [time / file_count for time in all_results[method]]
 
 # 创建结果保存路径
 result_img_folder = "./result_img/complexity"
 os.makedirs(result_img_folder, exist_ok=True)
 
-# 折线图 1: Recherche 和 Suppression
+# 绘制图表
+# 图表 1: Recherche 和 Suppression
 plt.figure(figsize=(10, 6))
 for method in ["Recherche", "Suppression"]:
     plt.plot(input_sizes, all_results[method], label=method, linewidth=2)
 
-plt.title("Complexity Analysis (Patricia-Trie): Recherche and Suppression", fontsize=14)
+plt.title("Average Execution Time (Patricia-Trie): Recherche and Suppression", fontsize=14)
 plt.xlabel("Input Size (Number of Words)", fontsize=12)
-plt.ylabel("Execution Time (seconds)", fontsize=12)
+plt.ylabel("Average Execution Time (seconds)", fontsize=12)
 plt.legend()
 plt.grid()
 plt.tight_layout()
-plt.savefig(os.path.join(result_img_folder, "complexity_Patricia_recherche_suppression_Patricia.png"))
+plt.savefig(os.path.join(result_img_folder, "complexity_Patricia_recherche_suppression.png"))
 plt.show()
 
-# 折线图 2: 其他方法
+# 图表 2: 其他方法
 plt.figure(figsize=(10, 6))
 for method in ["ComptageMots", "ListeMots", "ComptageNil", "Hauteur", "ProfondeurMoyenne", "Prefixe"]:
     plt.plot(input_sizes, all_results[method], label=method, linewidth=2)
 
-plt.title("Complexity Analysis (Patricia-Trie): Other Methods", fontsize=14)
+plt.title("Average Execution Time (Patricia-Trie): Other Methods", fontsize=14)
 plt.xlabel("Input Size (Number of Words)", fontsize=12)
-plt.ylabel("Execution Time (seconds)", fontsize=12)
+plt.ylabel("Average Execution Time (seconds)", fontsize=12)
 plt.legend()
 plt.grid()
 plt.tight_layout()
 plt.savefig(os.path.join(result_img_folder, "complexity_Patricia_other_methods.png"))
 plt.show()
 
-print("Patricia-Trie Complexity analysis completed and plots saved.")
+print("Patricia-Trie Average Execution analysis completed and plots saved.")

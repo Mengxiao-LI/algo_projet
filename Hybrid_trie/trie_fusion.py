@@ -12,7 +12,7 @@ file1 = sys.argv[1]
 file2 = sys.argv[2]
 
 # 设置结果文件夹路径
-result_dir = "result"
+result_dir = "Hybrid_trie/result"
 os.makedirs(result_dir, exist_ok=True)  # 确保结果文件夹存在
 
 # 将文件路径调整为 result 文件夹中的文件
