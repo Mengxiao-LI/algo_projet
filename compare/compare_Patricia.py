@@ -58,6 +58,7 @@ for filename in os.listdir(input_folder):
                     overall_patricia_total_time += (end_time - start_time)
 
                     word_count += 1
+        operation_count= single_patricia.operation_count
 
         # 搜索测试
         with open(file_path, "r") as file:
@@ -105,7 +106,7 @@ for filename in os.listdir(input_folder):
             "Overall Construction Time (seconds)": overall_patricia_total_time,
             "Height": hauteur(single_patricia),
             "Average Depth": profondeurMoyenne(single_patricia),
-            "Insert Comparisons": single_patricia.operation_count["insert_comparisons"],
+            "Insert Comparisons": operation_count["insert_comparisons"],
             "Search Comparisons": single_patricia.operation_count["search_comparisons"],
             "Delete Comparisons": single_patricia.operation_count["delete_comparisons"],
             "Insertion NEW LIST WORD Times (milliseconds)": insertion_times* 1000000,

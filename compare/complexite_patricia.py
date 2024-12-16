@@ -87,7 +87,7 @@ def test_methods(words):
     return results
 
 # 初始化变量
-input_sizes = [100, 500, 1000, 5000, 10000]  # 测试的单词规模
+input_sizes = [1000,2000, 4000, 6000, 8000, 10000]  # 测试的单词规模
 shakespeare_folder = "../compare/Shakespeare"
 all_results = {method: [0] * len(input_sizes) for method in ["Recherche", "ComptageMots", "ListeMots", "ComptageNil", "Hauteur", "ProfondeurMoyenne", "Prefixe", "Suppression"]}
 file_count = 0  # 记录文件数量，用于计算平均值
