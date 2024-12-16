@@ -369,16 +369,20 @@ def json_to_patricia_trie(data):
         """递归地将 JSON 数据转换为 Patricia-Trie 节点"""
         node = PatriciaTrieNode(node_data["label"])
 
-        # 如果当前节点是单词结束，但仍有子节点，处理为既是结尾又有前缀的情况
-        if node_data.get("is_end_of_word", False):
-            # 不直接在 label 上添加结束标记符，而是增加一个子节点
-            if PatriciaTrie.end_marker not in node.children:
-                end_marker_node = PatriciaTrieNode(PatriciaTrie.end_marker)
-                node.children[PatriciaTrie.end_marker] = end_marker_node
-
         # 递归处理子节点
         for key, child_data in node_data.get("children", {}).items():
             node.children[key] = _dict_to_node(child_data)
+
+        # 如果当前节点是单词结束
+        if node_data.get("is_end_of_word", False):
+            if node.children:
+                # 如果当前节点有其他子节点，则用子节点方式存放 end_marker
+                if PatriciaTrie.end_marker not in node.children:
+                    end_marker_node = PatriciaTrieNode(PatriciaTrie.end_marker)
+                    node.children[PatriciaTrie.end_marker] = end_marker_node
+            else:
+                # 没有子节点，直接在 label 中加上结束标记
+                node.label += PatriciaTrie.end_marker
 
         return node
 
@@ -434,7 +438,8 @@ if __name__ == "__main__":
         trie1.inserer(word)
 
     # 打印 Patricia-Trie 结构
-    trie1.display_as_json()
+    #trie1.display_as_json()
+    print("phrase")
     print(liste_mots(trie1))
     print("there is "+str(comptage_mots(trie1))+" mots in the arbre1")
     print("nb Nil in trie no endmarker "+str(comptage_nil_exclude_endmarker(trie1)))
