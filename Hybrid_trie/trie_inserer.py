@@ -13,14 +13,10 @@ x = int(sys.argv[1])
 file_name = sys.argv[2]
 
 # 确定输出文件夹和文件名
-output_folder = "result"  # 定义结果保存的文件夹
-if x == 0:
-    output_file = os.path.join(output_folder, "pat.json")
-elif x == 1:
-    output_file = os.path.join(output_folder, "trie.json")
-else:
-    print("Error: Invalid value for x. Must be 0 or 1.")
-    sys.exit(1)
+output_folder = "Hybrid_trie/result"  # 定义结果保存的文件夹
+
+output_file = os.path.join(output_folder, "trie.json")
+
 
 # 确保输出文件夹存在
 os.makedirs(output_folder, exist_ok=True)

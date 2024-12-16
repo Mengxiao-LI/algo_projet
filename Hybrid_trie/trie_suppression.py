@@ -12,18 +12,13 @@ x = int(sys.argv[1])
 words_file = sys.argv[2]
 
 # 设置文件夹和文件名
-result_dir = "result"
+result_dir = "Hybrid_trie/result"
 os.makedirs(result_dir, exist_ok=True)  # 确保文件夹存在
 
-if x == 0:
-    input_file = os.path.join(result_dir, "pat.json")
-    output_file = os.path.join(result_dir, "pat.json")
-elif x == 1:
-    input_file = os.path.join(result_dir, "trie.json")
-    output_file = os.path.join(result_dir, "trie.json")
-else:
-    print("Error: Invalid value for x. Must be 0 or 1.")
-    sys.exit(1)
+
+input_file = os.path.join(result_dir, "trie.json")
+output_file = os.path.join(result_dir, "trie.json")
+
 
 # 加载现有树或创建新树
 try:
