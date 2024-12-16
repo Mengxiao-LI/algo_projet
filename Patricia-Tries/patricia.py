@@ -3,8 +3,8 @@ import json
 
 class PatriciaTrieNode:
     def __init__(self, label=""):
-        self.label = label  # 当前节点的键
-        self.children = {}  # 使用键值对存储子节点（字典）
+        self.label = label
+        self.children = {}
 
 
 class PatriciaTrie:

@@ -1,7 +1,7 @@
 {
     "henryviii.txt": {
         "Word Count": 26548,
-        "Construction Time (seconds)": 0.1387310028076172,
+        "Construction Time (seconds)": 0.13432025909423828,
         "Height": 27,
         "Average Depth": 13.921170498656315,
         "Insert Comparisons": 341261,
@@ -11,47 +11,47 @@
     },
     "twelfth_night.txt": {
         "Word Count": 21856,
-        "Construction Time (seconds)": 0.11610794067382812,
+        "Construction Time (seconds)": 0.11544299125671387,
         "Height": 32,
         "Average Depth": 13.97241620111732,
         "Insert Comparisons": 328240,
         "Search Comparisons": 221785,
         "Delete Comparisons": 274035,
-        "Insertion NEW LIST WORD Times (milliseconds)": 3.814697265625
+        "Insertion NEW LIST WORD Times (milliseconds)": 4.0531158447265625
     },
     "julius_caesar.txt": {
         "Word Count": 21167,
-        "Construction Time (seconds)": 0.11201167106628418,
+        "Construction Time (seconds)": 0.10995984077453613,
         "Height": 27,
         "Average Depth": 13.317220543806647,
         "Insert Comparisons": 312104,
         "Search Comparisons": 208354,
         "Delete Comparisons": 272247,
-        "Insertion NEW LIST WORD Times (milliseconds)": 4.0531158447265625
+        "Insertion NEW LIST WORD Times (milliseconds)": 5.245208740234375
     },
     "3henryvi.txt": {
         "Word Count": 26523,
-        "Construction Time (seconds)": 0.1466507911682129,
+        "Construction Time (seconds)": 0.14023804664611816,
         "Height": 30,
         "Average Depth": 14.133657351154314,
         "Insert Comparisons": 365843,
         "Search Comparisons": 280464,
         "Delete Comparisons": 277306,
-        "Insertion NEW LIST WORD Times (milliseconds)": 3.814697265625
+        "Insertion NEW LIST WORD Times (milliseconds)": 4.0531158447265625
     },
     "tempest.txt": {
         "Word Count": 17908,
-        "Construction Time (seconds)": 0.09824991226196289,
+        "Construction Time (seconds)": 0.09485387802124023,
         "Height": 28,
         "Average Depth": 13.756682659355723,
         "Insert Comparisons": 297098,
         "Search Comparisons": 180267,
         "Delete Comparisons": 272235,
-        "Insertion NEW LIST WORD Times (milliseconds)": 4.76837158203125
+        "Insertion NEW LIST WORD Times (milliseconds)": 4.0531158447265625
     },
     "cymbeline.txt": {
         "Word Count": 29789,
-        "Construction Time (seconds)": 0.15598702430725098,
+        "Construction Time (seconds)": 0.15269994735717773,
         "Height": 27,
         "Average Depth": 13.23771546179573,
         "Insert Comparisons": 353855,
@@ -61,67 +61,67 @@
     },
     "coriolanus.txt": {
         "Word Count": 29919,
-        "Construction Time (seconds)": 0.15302300453186035,
+        "Construction Time (seconds)": 0.16182708740234375,
         "Height": 26,
         "Average Depth": 13.271698113207547,
         "Insert Comparisons": 339906,
         "Search Comparisons": 282753,
         "Delete Comparisons": 263610,
-        "Insertion NEW LIST WORD Times (milliseconds)": 4.0531158447265625
+        "Insertion NEW LIST WORD Times (milliseconds)": 2.6226043701171875
     },
     "2henryiv.txt": {
         "Word Count": 28411,
-        "Construction Time (seconds)": 0.172713041305542,
+        "Construction Time (seconds)": 0.16403508186340332,
         "Height": 33,
         "Average Depth": 14.831490258030543,
         "Insert Comparisons": 417978,
         "Search Comparisons": 318055,
         "Delete Comparisons": 298988,
-        "Insertion NEW LIST WORD Times (milliseconds)": 4.0531158447265625
+        "Insertion NEW LIST WORD Times (milliseconds)": 3.814697265625
     },
     "pericles.txt": {
         "Word Count": 20042,
-        "Construction Time (seconds)": 0.12346005439758301,
+        "Construction Time (seconds)": 0.11607980728149414,
         "Height": 25,
         "Average Depth": 13.169849246231156,
         "Insert Comparisons": 307411,
         "Search Comparisons": 201788,
         "Delete Comparisons": 269477,
-        "Insertion NEW LIST WORD Times (milliseconds)": 3.0994415283203125
+        "Insertion NEW LIST WORD Times (milliseconds)": 2.86102294921875
     },
     "1henryvi.txt": {
         "Word Count": 23365,
-        "Construction Time (seconds)": 0.1504499912261963,
+        "Construction Time (seconds)": 0.1352849006652832,
         "Height": 26,
         "Average Depth": 13.313303521520403,
         "Insert Comparisons": 323562,
         "Search Comparisons": 235932,
         "Delete Comparisons": 269370,
-        "Insertion NEW LIST WORD Times (milliseconds)": 4.0531158447265625
+        "Insertion NEW LIST WORD Times (milliseconds)": 4.291534423828125
     },
     "henryv.txt": {
         "Word Count": 27948,
-        "Construction Time (seconds)": 0.16956782341003418,
+        "Construction Time (seconds)": 0.1470930576324463,
         "Height": 31,
         "Average Depth": 14.328887830435818,
         "Insert Comparisons": 366419,
         "Search Comparisons": 288214,
         "Delete Comparisons": 275866,
-        "Insertion NEW LIST WORD Times (milliseconds)": 3.0994415283203125
+        "Insertion NEW LIST WORD Times (milliseconds)": 4.0531158447265625
     },
     "taming_shrew.txt": {
         "Word Count": 22559,
-        "Construction Time (seconds)": 0.1184079647064209,
+        "Construction Time (seconds)": 0.11574816703796387,
         "Height": 26,
         "Average Depth": 13.146267652992602,
         "Insert Comparisons": 305233,
         "Search Comparisons": 215021,
         "Delete Comparisons": 263662,
-        "Insertion NEW LIST WORD Times (milliseconds)": 3.0994415283203125
+        "Insertion NEW LIST WORD Times (milliseconds)": 2.86102294921875
     },
     "timon.txt": {
         "Word Count": 20152,
-        "Construction Time (seconds)": 0.11659073829650879,
+        "Construction Time (seconds)": 0.1046299934387207,
         "Height": 27,
         "Average Depth": 13.917989417989418,
         "Insert Comparisons": 310532,
@@ -131,7 +131,7 @@
     },
     "merry_wives.txt": {
         "Word Count": 24134,
-        "Construction Time (seconds)": 0.1306009292602539,
+        "Construction Time (seconds)": 0.12427806854248047,
         "Height": 28,
         "Average Depth": 13.954802259887005,
         "Insert Comparisons": 330135,
@@ -141,7 +141,7 @@
     },
     "othello.txt": {
         "Word Count": 28534,
-        "Construction Time (seconds)": 0.15227174758911133,
+        "Construction Time (seconds)": 0.14669275283813477,
         "Height": 27,
         "Average Depth": 13.885231825987407,
         "Insert Comparisons": 341839,
@@ -151,7 +151,7 @@
     },
     "john.txt": {
         "Word Count": 22182,
-        "Construction Time (seconds)": 0.12415504455566406,
+        "Construction Time (seconds)": 0.11889100074768066,
         "Height": 28,
         "Average Depth": 14.006711409395972,
         "Insert Comparisons": 329233,
@@ -161,17 +161,17 @@
     },
     "richardii.txt": {
         "Word Count": 24392,
-        "Construction Time (seconds)": 0.13226699829101562,
+        "Construction Time (seconds)": 0.12784576416015625,
         "Height": 27,
         "Average Depth": 13.589583333333334,
         "Insert Comparisons": 319782,
         "Search Comparisons": 239900,
         "Delete Comparisons": 262645,
-        "Insertion NEW LIST WORD Times (milliseconds)": 3.814697265625
+        "Insertion NEW LIST WORD Times (milliseconds)": 3.0994415283203125
     },
     "cleopatra.txt": {
         "Word Count": 27638,
-        "Construction Time (seconds)": 0.15547895431518555,
+        "Construction Time (seconds)": 0.1531829833984375,
         "Height": 29,
         "Average Depth": 13.830943188086046,
         "Insert Comparisons": 382901,
@@ -181,27 +181,27 @@
     },
     "two_gentlemen.txt": {
         "Word Count": 18579,
-        "Construction Time (seconds)": 0.09909415245056152,
+        "Construction Time (seconds)": 0.09787702560424805,
         "Height": 26,
         "Average Depth": 13.300080450522929,
         "Insert Comparisons": 289778,
         "Search Comparisons": 183394,
         "Delete Comparisons": 263311,
-        "Insertion NEW LIST WORD Times (milliseconds)": 4.0531158447265625
+        "Insertion NEW LIST WORD Times (milliseconds)": 3.0994415283203125
     },
     "midsummer.txt": {
         "Word Count": 17479,
-        "Construction Time (seconds)": 0.09619617462158203,
+        "Construction Time (seconds)": 0.09427595138549805,
         "Height": 26,
         "Average Depth": 13.07603186097031,
         "Insert Comparisons": 299443,
         "Search Comparisons": 178541,
         "Delete Comparisons": 273964,
-        "Insertion NEW LIST WORD Times (milliseconds)": 3.814697265625
+        "Insertion NEW LIST WORD Times (milliseconds)": 4.0531158447265625
     },
     "winters_tale.txt": {
         "Word Count": 26653,
-        "Construction Time (seconds)": 0.145125150680542,
+        "Construction Time (seconds)": 0.14168024063110352,
         "Height": 29,
         "Average Depth": 14.291513955455315,
         "Insert Comparisons": 377734,
@@ -211,27 +211,27 @@
     },
     "titus.txt": {
         "Word Count": 22185,
-        "Construction Time (seconds)": 0.12018609046936035,
+        "Construction Time (seconds)": 0.11916065216064453,
         "Height": 27,
         "Average Depth": 14.010506208213945,
         "Insert Comparisons": 337615,
         "Search Comparisons": 229505,
         "Delete Comparisons": 282381,
-        "Insertion NEW LIST WORD Times (milliseconds)": 4.291534423828125
+        "Insertion NEW LIST WORD Times (milliseconds)": 4.0531158447265625
     },
     "measure.txt": {
         "Word Count": 23569,
-        "Construction Time (seconds)": 0.12097406387329102,
+        "Construction Time (seconds)": 0.1195211410522461,
         "Height": 25,
         "Average Depth": 12.480662983425415,
         "Insert Comparisons": 294385,
         "Search Comparisons": 215329,
         "Delete Comparisons": 257721,
-        "Insertion NEW LIST WORD Times (milliseconds)": 4.0531158447265625
+        "Insertion NEW LIST WORD Times (milliseconds)": 3.814697265625
     },
     "lear.txt": {
         "Word Count": 28447,
-        "Construction Time (seconds)": 0.15236997604370117,
+        "Construction Time (seconds)": 0.1488339900970459,
         "Height": 27,
         "Average Depth": 13.723866911186796,
         "Insert Comparisons": 360010,
@@ -241,7 +241,7 @@
     },
     "richardiii.txt": {
         "Word Count": 32065,
-        "Construction Time (seconds)": 0.17465686798095703,
+        "Construction Time (seconds)": 0.1710219383239746,
         "Height": 26,
         "Average Depth": 13.540707016604177,
         "Insert Comparisons": 364524,
@@ -251,7 +251,7 @@
     },
     "lll.txt": {
         "Word Count": 23407,
-        "Construction Time (seconds)": 0.13251495361328125,
+        "Construction Time (seconds)": 0.12394595146179199,
         "Height": 34,
         "Average Depth": 13.120888632429313,
         "Insert Comparisons": 307576,
@@ -261,7 +261,7 @@
     },
     "2henryvi.txt": {
         "Word Count": 27370,
-        "Construction Time (seconds)": 0.1540369987487793,
+        "Construction Time (seconds)": 0.15598702430725098,
         "Height": 33,
         "Average Depth": 15.2144565506245,
         "Insert Comparisons": 414407,
@@ -271,37 +271,37 @@
     },
     "asyoulikeit.txt": {
         "Word Count": 23149,
-        "Construction Time (seconds)": 0.12676405906677246,
+        "Construction Time (seconds)": 0.12569093704223633,
         "Height": 29,
         "Average Depth": 14.516954787234043,
         "Insert Comparisons": 361199,
         "Search Comparisons": 247918,
         "Delete Comparisons": 287894,
-        "Insertion NEW LIST WORD Times (milliseconds)": 4.291534423828125
+        "Insertion NEW LIST WORD Times (milliseconds)": 4.0531158447265625
     },
     "1henryiv.txt": {
         "Word Count": 26588,
-        "Construction Time (seconds)": 0.13916611671447754,
+        "Construction Time (seconds)": 0.13731932640075684,
         "Height": 28,
         "Average Depth": 13.370193657030592,
         "Insert Comparisons": 344262,
         "Search Comparisons": 262994,
         "Delete Comparisons": 270866,
-        "Insertion NEW LIST WORD Times (milliseconds)": 4.76837158203125
+        "Insertion NEW LIST WORD Times (milliseconds)": 4.0531158447265625
     },
     "allswell.txt": {
         "Word Count": 24872,
-        "Construction Time (seconds)": 0.13274812698364258,
+        "Construction Time (seconds)": 0.128309965133667,
         "Height": 28,
         "Average Depth": 13.725301951068442,
         "Insert Comparisons": 348229,
         "Search Comparisons": 253033,
         "Delete Comparisons": 277107,
-        "Insertion NEW LIST WORD Times (milliseconds)": 5.0067901611328125
+        "Insertion NEW LIST WORD Times (milliseconds)": 4.76837158203125
     },
     "much_ado.txt": {
         "Word Count": 22838,
-        "Construction Time (seconds)": 0.11974620819091797,
+        "Construction Time (seconds)": 0.11905217170715332,
         "Height": 27,
         "Average Depth": 13.334179050380573,
         "Insert Comparisons": 314696,
@@ -311,17 +311,17 @@
     },
     "troilus_cressida.txt": {
         "Word Count": 28186,
-        "Construction Time (seconds)": 0.153275728225708,
+        "Construction Time (seconds)": 0.15355587005615234,
         "Height": 28,
         "Average Depth": 14.06751269035533,
         "Insert Comparisons": 379780,
         "Search Comparisons": 291805,
         "Delete Comparisons": 287608,
-        "Insertion NEW LIST WORD Times (milliseconds)": 4.291534423828125
+        "Insertion NEW LIST WORD Times (milliseconds)": 5.0067901611328125
     },
     "merchant.txt": {
         "Word Count": 22542,
-        "Construction Time (seconds)": 0.11611509323120117,
+        "Construction Time (seconds)": 0.11492013931274414,
         "Height": 29,
         "Average Depth": 13.623755806237558,
         "Insert Comparisons": 312082,
@@ -331,42 +331,42 @@
     },
     "macbeth.txt": {
         "Word Count": 18705,
-        "Construction Time (seconds)": 0.1040351390838623,
+        "Construction Time (seconds)": 0.0994260311126709,
         "Height": 27,
         "Average Depth": 13.759526938239159,
         "Insert Comparisons": 305423,
         "Search Comparisons": 190398,
         "Delete Comparisons": 274358,
-        "Insertion NEW LIST WORD Times (milliseconds)": 2.86102294921875
+        "Insertion NEW LIST WORD Times (milliseconds)": 3.0994415283203125
     },
     "comedy_errors.txt": {
         "Word Count": 16465,
-        "Construction Time (seconds)": 0.08714699745178223,
+        "Construction Time (seconds)": 0.08625984191894531,
         "Height": 25,
         "Average Depth": 13.062228024369016,
         "Insert Comparisons": 280578,
         "Search Comparisons": 159341,
         "Delete Comparisons": 269658,
-        "Insertion NEW LIST WORD Times (milliseconds)": 3.814697265625
+        "Insertion NEW LIST WORD Times (milliseconds)": 4.0531158447265625
     },
     "romeo_juliet.txt": {
         "Word Count": 26507,
-        "Construction Time (seconds)": 0.1409471035003662,
+        "Construction Time (seconds)": 0.1405189037322998,
         "Height": 27,
         "Average Depth": 13.833530805687204,
         "Insert Comparisons": 368056,
         "Search Comparisons": 275377,
         "Delete Comparisons": 280317,
-        "Insertion NEW LIST WORD Times (milliseconds)": 5.0067901611328125
+        "Insertion NEW LIST WORD Times (milliseconds)": 5.9604644775390625
     },
     "hamlet.txt": {
         "Word Count": 32861,
-        "Construction Time (seconds)": 0.17288684844970703,
+        "Construction Time (seconds)": 0.18575310707092285,
         "Height": 26,
         "Average Depth": 13.754686785550984,
         "Insert Comparisons": 369850,
         "Search Comparisons": 320663,
         "Delete Comparisons": 266101,
-        "Insertion NEW LIST WORD Times (milliseconds)": 4.291534423828125
+        "Insertion NEW LIST WORD Times (milliseconds)": 2.86102294921875
     }
 }

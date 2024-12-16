@@ -2,7 +2,8 @@ import json
 import os
 import re
 
-#refresh
+
+# refresh
 
 class HybridTrieNode:
     """
@@ -13,6 +14,7 @@ class HybridTrieNode:
     - middle: 中间子节点
     - right: 右子节点
     """
+
     def __init__(self, char=None, is_end_of_word=False):
         self.char = char
         self.is_end_of_word = is_end_of_word
@@ -44,11 +46,11 @@ class HybridTrieNode:
         return node
 
 
-
 class HybridTrie:
     """
     混合 Trie 树，支持插入、删除、搜索、深度统计等操作。
     """
+
     def __init__(self):
         self.root = None
         self.operation_count = {
@@ -86,11 +88,13 @@ class HybridTrie:
         """
         删除混合树中指定的单词。
         """
+
         def _suppression(node, word, index):
             if node is None:
                 return None  # 节点为空，直接返回
 
             char = word[index]
+            self.operation_count["delete_comparisons"] += 1  # 记录比较次数
 
             if char < node.char:
                 # 在左子树中递归删除
@@ -109,19 +113,19 @@ class HybridTrie:
 
                 # 检查当前节点是否需要删除
                 if (
-                    not node.is_end_of_word  # 当前节点不再是单词结尾
-                    and node.left is None  # 左子树为空
-                    and node.middle is None  # 中间子树为空
-                    and node.right is None  # 右子树为空
+                        not node.is_end_of_word  # 当前节点不再是单词结尾
+                        and node.left is None  # 左子树为空
+                        and node.middle is None  # 中间子树为空
+                        and node.right is None  # 右子树为空
                 ):
                     return None  # 删除当前节点
 
             # 修剪父节点：如果当前节点没有子节点且不是单词结尾，递归删除父节点
             if (
-                not node.is_end_of_word
-                and node.left is None
-                and node.middle is None
-                and node.right is None
+                    not node.is_end_of_word
+                    and node.left is None
+                    and node.middle is None
+                    and node.right is None
             ):
                 return None  # 返回空节点，表示该节点也被删除
 
@@ -134,15 +138,11 @@ class HybridTrie:
         if self.root and not self.root.is_end_of_word and self.root.left is None and self.root.middle is None and self.root.right is None:
             self.root = None
 
-
-
     def is_empty(self):
         """
         检查 Trie 是否完全为空。
         """
         return self.root is None
-
-
 
     # 搜索功能
     def recherche(self, word):
@@ -162,7 +162,7 @@ class HybridTrie:
             if index + 1 == len(word):
                 return node.is_end_of_word
             return self._recherche(node.middle, word, index + 1)
-        
+
     def comptageMots(self, node):
         if node is None:
             return 0
@@ -188,11 +188,11 @@ class HybridTrie:
         self._liste_mots(node.middle, prefix + node.char, result)
         self._liste_mots(node.right, prefix, result)
 
-
     def comptage_nil(self):
         """
         统计混合树中指向 NULL 的指针数量
         """
+
         def _comptage_nil(node):
             if node is None:
                 return 0
@@ -262,8 +262,6 @@ class HybridTrie:
                 return self.comptageMots(node.middle)
             return self._prefixe(node.middle, prefix, index + 1)
 
-    
-
     # 保存和加载功能
     def to_json(self, file_path):
         """将树保存为 JSON 文件"""
@@ -273,7 +271,7 @@ class HybridTrie:
     def to_dict(self):
         """将树转换为字典格式"""
         return self.root.to_dict() if self.root else {}
-    
+
     @classmethod
     def from_dict(cls, data):
         """
@@ -286,7 +284,6 @@ class HybridTrie:
         trie.root = HybridTrieNode.from_dict(data)
         return trie
 
-
     @classmethod
     def from_json(cls, file_path):
         """从 JSON 文件加载树"""
@@ -295,7 +292,7 @@ class HybridTrie:
         trie = cls()
         trie.root = HybridTrieNode.from_dict(data)
         return trie
-    
+
     def is_unbalanced(self, depth_threshold=3, balance_threshold=2):
         """判断树是否失衡"""
         max_depth = self.hauteur()
@@ -356,9 +353,6 @@ class HybridTrie:
             self.rebalance()
 
 
-
-
-
 if __name__ == "__main__":
     # 示例句子
     sentence = """
@@ -383,7 +377,3 @@ if __name__ == "__main__":
     json_file_path = os.path.join(result_folder, "exemple_base.json")
     trie.to_json(json_file_path)
     print(f"Hybrid Trie 已成功保存为 '{json_file_path}'")
-
-
-
-

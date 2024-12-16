@@ -101,7 +101,7 @@ for input_size in input_sizes:
         all_results[method].append(time_taken)
 
 # 创建结果保存路径
-result_img_folder = "./result_img"
+result_img_folder = "./result_img/complexity"
 os.makedirs(result_img_folder, exist_ok=True)
 
 # 折线图 1: Recherche 和 Suppression
