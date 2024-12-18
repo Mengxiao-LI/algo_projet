@@ -1,7 +1,7 @@
 # Trie Comparison Project
 
 This project implements and compares **Patricia Trie** and **Hybrid Trie** structures to manage and analyze word sets from Shakespearean texts.
-Our git：https://github.com/Mengxiao-LI/projet_algo.git
+Our git：https://github.com/Mengxiao-LI/algo_projet.git
 # Requirements
 
 - **Python 3.9+**
