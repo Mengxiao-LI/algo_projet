@@ -110,6 +110,34 @@ def find_mots_prefix(str1, str2, counter_dict=None, counter_key=None):
 
     return str1[:min_len]
 
+def json_to_patricia_trie(data):
+    """从 JSON 数据构建 Patricia-Trie"""
+
+    def _dict_to_node(node_data):
+        """递归地将 JSON 数据转换为 Patricia-Trie 节点"""
+        node = PatriciaTrieNode(node_data["label"])
+
+        # 递归处理子节点
+        for key, child_data in node_data.get("children", {}).items():
+            node.children[key] = _dict_to_node(child_data)
+
+        # 如果当前节点是单词结束
+        if node_data.get("is_end_of_word", False):
+            if node.children:
+                # 如果当前节点有其他子节点，则用子节点方式存放 end_marker
+                if PatriciaTrie.end_marker not in node.children:
+                    end_marker_node = PatriciaTrieNode(PatriciaTrie.end_marker)
+                    node.children[PatriciaTrie.end_marker] = end_marker_node
+            else:
+                # 没有子节点，直接在 label 中加上结束标记
+                node.label += PatriciaTrie.end_marker
+
+        return node
+
+    # 创建 Patricia-Trie，并设置根节点
+    trie = PatriciaTrie()
+    trie.root = _dict_to_node(data)
+    return trie
 
 #Question2
 def recherche(arbre, m):
