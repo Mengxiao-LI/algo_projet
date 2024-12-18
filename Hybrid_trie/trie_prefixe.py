@@ -3,22 +3,22 @@ import sys
 import json
 from hybrid_trie import HybridTrie
 
-# 检查参数数量
+# Vérifier le nombre de paramètres
 if len(sys.argv) < 3:
     print("Usage: python trie_prefixe.py <file.json> <prefix>")
     sys.exit(1)
 
-# 定义输入和输出路径
+# Définir les chemins d'entrée et de sortie
 
-input_file = sys.argv[1] # 从输入文件夹读取文件
+input_file = sys.argv[1] # Lire le fichier depuis le dossier d'entrée
 prefix = sys.argv[2]
-output_folder = "Hybrid_trie/result"  # 输出文件夹
-output_file = os.path.join(output_folder, "prefixe.txt")  # 保存结果到 result 文件夹
+output_folder = "Hybrid_trie/result"  # Dossier de sortie
+output_file = os.path.join(output_folder, "prefixe.txt")  # Sauvegarder les résultats dans le dossier result
 
-# 确保输出文件夹存在
+# S'assurer que le dossier de sortie existe
 os.makedirs(output_folder, exist_ok=True)
 
-# 加载树
+# Charger l'arbre
 try:
     with open(input_file, "r") as f:
         trie = HybridTrie.from_dict(json.load(f))
@@ -26,10 +26,10 @@ except FileNotFoundError:
     print(f"Error: {input_file} not found.")
     sys.exit(1)
 
-# 计算前缀单词数量
+# Calculer le nombre de mots avec le préfixe
 prefix_count = trie.prefixe(prefix)
 
-# 保存结果到文件
+# Sauvegarder les résultats dans un fichier
 try:
     with open(output_file, "w") as f:
         f.write(f"{prefix_count}\n")

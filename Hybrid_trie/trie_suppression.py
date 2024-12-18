@@ -1,9 +1,9 @@
 import sys
 import json
-import os  # 用于处理文件夹操作
+import os  
 from hybrid_trie import HybridTrie
 
-# 检查参数数量
+# Vérifier le nombre de paramètres
 if len(sys.argv) < 3:
     print("Usage: python trie_suppression.py x nom_fichier.txt")
     sys.exit(1)
@@ -11,16 +11,16 @@ if len(sys.argv) < 3:
 x = int(sys.argv[1])
 words_file = sys.argv[2]
 
-# 设置文件夹和文件名
+# Définir les dossiers et les noms de fichiers
 result_dir = "Hybrid_trie/result"
-os.makedirs(result_dir, exist_ok=True)  # 确保文件夹存在
+os.makedirs(result_dir, exist_ok=True)  # S'assurer que le dossier existe
 
 
 input_file = os.path.join(result_dir, "trie.json")
 output_file = os.path.join(result_dir, "trie.json")
 
 
-# 加载现有树或创建新树
+# Charger un arbre existant ou en créer un nouveau
 try:
     with open(input_file, "r") as f:
         data = json.load(f)
@@ -31,13 +31,14 @@ except FileNotFoundError:
     print(f"File {input_file} not found. Creating a new Trie.")
     trie = HybridTrie()
 
-# 删除单词
+
+# Supprimer des mots
 try:
     with open(words_file, "r") as f:
         for line in f:
             word = line.strip()
             print(f"Attempting to delete word: '{word}'")
-            if trie.recherche(word):  # 检查单词是否存在
+            if trie.recherche(word):  # Vérifier si le mot existe
                 trie.suppression(word)
                 print(f"Successfully deleted '{word}'.")
             else:
@@ -46,13 +47,13 @@ except FileNotFoundError:
     print(f"Error: {words_file} not found.")
     sys.exit(1)
 
-# 验证树是否为空
+# Vérifier si l'arbre est vide
 if trie.is_empty():
     print("The tree is completely empty.")
 else:
     print("The tree still contains nodes.")
 
-# 保存修改后的树到 result 文件夹
+# Sauvegarder l'arbre modifié dans le dossier result
 with open(output_file, "w") as f:
     json.dump(trie.to_dict(), f, indent=4)
 print(f"Modified tree saved to {output_file}.")

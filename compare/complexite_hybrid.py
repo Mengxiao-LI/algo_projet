@@ -5,11 +5,11 @@ import matplotlib.pyplot as plt
 import sys
 import signal
 
-sys.path.append("../Hybrid_trie")  # 替换为 hybrid_trie 文件所在的实际路径
+sys.path.append("../Hybrid_trie")  # Remplacer par le chemin réel du fichier hybrid_trie
 from hybrid_trie import HybridTrie
 
 
-# 定义超时异常
+# Définir une exception pour les dépassements de temps
 class TimeoutException(Exception):
     pass
 
@@ -19,7 +19,7 @@ def timeout_handler(signum, frame):
 signal.signal(signal.SIGALRM, timeout_handler)
 
 def safe_execution(func, *args, timeout=10):
-    """安全执行函数，防止超时"""
+    """Exécution sécurisée d'une fonction avec gestion du dépassement de temps"""
     try:
         signal.alarm(timeout)
         result = func(*args)
@@ -29,13 +29,13 @@ def safe_execution(func, *args, timeout=10):
         return float('inf')
 
 def load_words_from_file(file_path, limit):
-    """从文件中读取指定数量的单词"""
+    """Charger un nombre spécifié de mots depuis un fichier"""
     with open(file_path, 'r', encoding='utf-8') as file:
         content = file.read().split()
         return content[:limit]
 
 def test_methods(words):
-    """测试 Hybrid Trie 的所有方法"""
+    """Tester toutes les méthodes de Hybrid Trie"""
     hybrid_trie = HybridTrie()
     results = {
         "Recherche": 0,
@@ -48,47 +48,47 @@ def test_methods(words):
         "Suppression": 0,
     }
 
-    # 插入单词到 Hybrid Trie
+    # Insérer des mots dans le Hybrid Trie
     for word in words:
         hybrid_trie.insert(word)
 
-    # 搜索
+    # Recherche
     start_time = time.time()
     for word in words:
         safe_execution(hybrid_trie.recherche, word, timeout=5)
     results["Recherche"] = time.time() - start_time
 
-    # 统计单词数量
+    # Comptage des mots
     start_time = time.time()
     safe_execution(hybrid_trie.comptageMots, hybrid_trie.root, timeout=5)
     results["ComptageMots"] = time.time() - start_time
 
-    # 列出所有单词
+    # Lister tous les mots
     start_time = time.time()
     safe_execution(hybrid_trie.liste_mots, timeout=5)
     results["ListeMots"] = time.time() - start_time
 
-    # 统计空指针
+    # Comptage des pointeurs null
     start_time = time.time()
     safe_execution(hybrid_trie.comptage_nil, timeout=5)
     results["ComptageNil"] = time.time() - start_time
 
-    # 树高度
+    # Hauteur de l'arbre
     start_time = time.time()
     safe_execution(hybrid_trie.hauteur, timeout=5)
     results["Hauteur"] = time.time() - start_time
 
-    # 平均深度
+    # Profondeur moyenne
     start_time = time.time()
     safe_execution(hybrid_trie.profondeur_moyenne, timeout=5)
     results["ProfondeurMoyenne"] = time.time() - start_time
 
-    # 前缀搜索
+    # Recherche par préfixe
     start_time = time.time()
     safe_execution(hybrid_trie.prefixe, "a", timeout=5)
     results["Prefixe"] = time.time() - start_time
 
-    # 删除所有单词
+    # Suppression de tous les mots
     start_time = time.time()
     for word in words:
         safe_execution(hybrid_trie.suppression, word, timeout=5)
@@ -96,13 +96,13 @@ def test_methods(words):
 
     return results
 
-# 初始化变量
-input_sizes = [100, 500, 1000, 5000, 10000]
+# Initialiser les variables
+input_sizes = [0,2000, 4000, 6000, 8000, 10000]
 shakespeare_folder = "./Shakespeare"
 all_results = {method: [0] * len(input_sizes) for method in ["Recherche", "ComptageMots", "ListeMots", "ComptageNil", "Hauteur", "ProfondeurMoyenne", "Prefixe", "Suppression"]}
 file_count = 0
 
-# 遍历文件并测试
+# Parcourir les fichiers et effectuer les tests
 for filename in os.listdir(shakespeare_folder):
     file_path = os.path.join(shakespeare_folder, filename)
     if os.path.isfile(file_path):
@@ -115,19 +115,19 @@ for filename in os.listdir(shakespeare_folder):
                 continue
             results = test_methods(words)
 
-            # 累加结果
+            # Ajouter les résultats
             for method in all_results.keys():
                 all_results[method][idx] += results[method]
 
-# 取平均值
+# Calculer les moyennes
 for method in all_results.keys():
     all_results[method] = [time / file_count for time in all_results[method]]
 
-# 结果保存路径
+# Chemin pour enregistrer les résultats
 result_img_folder = "./result_img/complexity"
 os.makedirs(result_img_folder, exist_ok=True)
 
-# 绘制图表：Recherche 和 Suppression
+# Graphe : Recherche et Suppression
 plt.figure(figsize=(10, 6))
 for method in ["Recherche", "Suppression"]:
     plt.plot(input_sizes, all_results[method], label=method, linewidth=2)
@@ -140,7 +140,7 @@ plt.tight_layout()
 plt.savefig(os.path.join(result_img_folder, "complexity_Hybrid_recherche_suppression.png"))
 plt.show()
 
-# 绘制图表：其他方法
+# Graphe : Autres méthodes
 plt.figure(figsize=(10, 6))
 for method in ["ComptageMots", "ListeMots", "ComptageNil", "Hauteur", "ProfondeurMoyenne", "Prefixe"]:
     plt.plot(input_sizes, all_results[method], label=method, linewidth=2)

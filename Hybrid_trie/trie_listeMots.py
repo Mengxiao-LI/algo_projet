@@ -7,20 +7,20 @@ if len(sys.argv) < 1:
     print("Usage: python trie_listeMots.py <file.json>")
     sys.exit(1)
 
-# 获取输入文件名
+# Obtenir le nom du fichier d'entrée
 input_file = sys.argv[1]
 
 
 input_path = input_file
 
-# 设置输出文件夹和文件路径
-output_folder = "Hybrid_trie/result"  # 输出文件夹
+# Définir le dossier et le chemin du fichier de sortie
+output_folder = "Hybrid_trie/result"  # Dossier de sortie
 output_file = os.path.join(output_folder, "mot.txt")
 
-# 确保输出文件夹存在
+# S'assurer que le dossier de sortie existe
 os.makedirs(output_folder, exist_ok=True)
 
-# 加载树
+# Charger l'arbre
 try:
     with open(input_path, "r") as f:
         trie = HybridTrie.from_dict(json.load(f))
@@ -28,10 +28,10 @@ except FileNotFoundError:
     print(f"Error: {input_path} not found.")
     sys.exit(1)
 
-# 列出所有单词
+# Lister tous les mots
 words = trie.liste_mots()
 
-# 保存到文件
+# Sauvegarder dans un fichier
 with open(output_file, "w") as f:
     for word in words:
         f.write(word + "\n")

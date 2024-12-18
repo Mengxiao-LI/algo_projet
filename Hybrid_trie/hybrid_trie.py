@@ -2,16 +2,16 @@ import json
 import os
 import re
 
-#refresh
+
 
 class HybridTrieNode:
     """
-    节点结构：
-    - char: 当前字符
-    - is_end_of_word: 是否为单词结束（相当于 end_marker）
-    - left: 左子节点
-    - middle: 中间子节点
-    - right: 右子节点
+    Structure du nœud :
+    - char : caractère actuel
+    - is_end_of_word : est-ce la fin d'un mot (équivalent à end_marker)
+    - left : nœud enfant gauche
+    - middle : nœud enfant central
+    - right : nœud enfant droit
     """
     def __init__(self, char=None, is_end_of_word=False):
         self.char = char
@@ -21,7 +21,7 @@ class HybridTrieNode:
         self.right = None
 
     def to_dict(self):
-        """将节点递归转换为字典格式"""
+        """Convertir récursivement le nœud en format dictionnaire"""
         return {
             "char": self.char,
             "is_end_of_word": self.is_end_of_word,
@@ -33,7 +33,7 @@ class HybridTrieNode:
     @staticmethod
     def from_dict(data):
         """
-        从字典数据重建节点
+        Reconstruire un nœud à partir d'un dictionnaire
         """
         if data is None:
             return None
@@ -47,7 +47,7 @@ class HybridTrieNode:
 
 class HybridTrie:
     """
-    混合 Trie 树，支持插入、删除、搜索、深度统计等操作。
+    Trie hybride, supporte les opérations d’insertion, suppression, recherche, statistiques de profondeur, etc.
     """
     def __init__(self):
         self.root = None
@@ -57,9 +57,9 @@ class HybridTrie:
             "delete_comparisons": 0
         }
 
-    # 插入功能
+    
     def insert(self, word):
-        """插入单词"""
+        """Insérer un mot"""
         self.root = self._insert(self.root, word, 0)
 
     def _insert(self, node, word, index):
@@ -68,7 +68,7 @@ class HybridTrie:
             node = HybridTrieNode(char)
 
         if char < node.char:
-            self.operation_count["insert_comparisons"] += 1  # 记录比较次数
+            self.operation_count["insert_comparisons"] += 1  # Enregistrer le nombre de comparaisons
             node.left = self._insert(node.left, word, index)
         elif char > node.char:
             self.operation_count["insert_comparisons"] += 1
@@ -81,58 +81,59 @@ class HybridTrie:
 
         return node
 
-    # 删除功能
+ 
     def suppression(self, word):
         """
-        删除混合树中指定的单词。
+        Supprimer un mot spécifique dans le Trie hybride.
         """
         def _suppression(node, word, index):
             if node is None:
-                return None  # 节点为空，直接返回
+                return None  # Le nœud est vide, retourner directement
 
             char = word[index]
             self.operation_count["delete_comparisons"] += 1  # 记录比较次数
 
 
             if char < node.char:
-                # 在左子树中递归删除
+                # Supprimer de manière récursive dans le sous-arbre gauche
                 node.left = _suppression(node.left, word, index)
             elif char > node.char:
-                # 在右子树中递归删除
+                # Supprimer de manière récursive dans le sous-arbre droit
                 node.right = _suppression(node.right, word, index)
             else:
-                # 找到匹配的字符节点
+                # Trouver le nœud correspondant au caractère
                 if index + 1 == len(word):
-                    # 到达单词末尾，移除结束标记
+                    # À la fin du mot, retirer le marqueur de fin
                     node.is_end_of_word = False
                 else:
-                    # 继续处理中间子树
+                    # Continuer à traiter le sous-arbre central
                     node.middle = _suppression(node.middle, word, index + 1)
 
-                # 检查当前节点是否需要删除
+                # Vérifier si le nœud actuel doit être supprimé
                 if (
-                    not node.is_end_of_word  # 当前节点不再是单词结尾
-                    and node.left is None  # 左子树为空
-                    and node.middle is None  # 中间子树为空
-                    and node.right is None  # 右子树为空
+                    not node.is_end_of_word  # Le nœud actuel n'est plus la fin d'un mot
+                    and node.left is None  # Le sous-arbre est vide
+                    and node.middle is None  
+                    and node.right is None  
                 ):
-                    return None  # 删除当前节点
+                    return None  # Supprimer le nœud actuel
 
-            # 修剪父节点：如果当前节点没有子节点且不是单词结尾，递归删除父节点
+            # Élaguer le nœud parent si nécessaire
             if (
                 not node.is_end_of_word
                 and node.left is None
                 and node.middle is None
                 and node.right is None
             ):
-                return None  # 返回空节点，表示该节点也被删除
+                return None  # Retourner un nœud vide pour indiquer qu'il a été supprimé
+
 
             return node
 
-        # 更新根节点
+        # Mettre à jour le nœud racine
         self.root = _suppression(self.root, word, 0)
 
-        # 清理根节点：如果根节点已经没有有效内容，清空根节点
+        # Nettoyer la racine si elle est vide
         if self.root and not self.root.is_end_of_word and self.root.left is None and self.root.middle is None and self.root.right is None:
             self.root = None
 
@@ -140,22 +141,22 @@ class HybridTrie:
 
     def is_empty(self):
         """
-        检查 Trie 是否完全为空。
+        Vérifier si le Trie est complètement vide.
         """
         return self.root is None
 
 
 
-    # 搜索功能
+
     def recherche(self, word):
-        """搜索单词是否存在"""
+        """Rechercher si un mot existe"""
         return self._recherche(self.root, word, 0)
 
     def _recherche(self, node, word, index):
         if node is None:
             return False
         char = word[index]
-        self.operation_count["search_comparisons"] += 1  # 记录比较次数
+        self.operation_count["search_comparisons"] += 1  
         if char < node.char:
             return self._recherche(node.left, word, index)
         elif char > node.char:
@@ -166,6 +167,7 @@ class HybridTrie:
             return self._recherche(node.middle, word, index + 1)
         
     def comptageMots(self, node):
+        """Compter le nombre de mots dans le Trie"""
         if node is None:
             return 0
         count = 1 if node.is_end_of_word else 0
@@ -176,7 +178,7 @@ class HybridTrie:
 
     # 列出所有单词
     def liste_mots(self):
-        """列出树中的所有单词"""
+        """Lister tous les mots dans le Trie"""
         result = []
         self._liste_mots(self.root, "", result)
         return result
@@ -193,7 +195,7 @@ class HybridTrie:
 
     def comptage_nil(self):
         """
-        统计混合树中指向 NULL 的指针数量
+        Compter le nombre de pointeurs NULL dans le Trie hybride
         """
         def _comptage_nil(node):
             if node is None:
@@ -217,7 +219,7 @@ class HybridTrie:
 
     # 树的高度
     def hauteur(self):
-        """计算树的高度"""
+        """Calculer la hauteur de l'arbre"""
         return self._hauteur(self.root)
 
     def _hauteur(self, node):
@@ -227,7 +229,7 @@ class HybridTrie:
 
     # 平均深度
     def profondeur_moyenne(self):
-        """计算树中叶子的平均深度"""
+        """Calculer la profondeur moyenne des feuilles dans l'arbre"""
         result = {"total_depth": 0, "leaf_count": 0}
         self._profondeur_moyenne(self.root, 0, result)
         if result["leaf_count"] == 0:
@@ -246,7 +248,7 @@ class HybridTrie:
 
     # 以指定前缀开头的单词数量
     def prefixe(self, prefix):
-        """统计以指定前缀开头的单词数量"""
+        """Compter le nombre de mots commençant par un préfixe donné"""
         return self._prefixe(self.root, prefix, 0)
 
     def _prefixe(self, node, prefix, index):
@@ -268,19 +270,19 @@ class HybridTrie:
 
     # 保存和加载功能
     def to_json(self, file_path):
-        """将树保存为 JSON 文件"""
+        """Sauvegarder le Trie sous forme de fichier JSON"""
         with open(file_path, "w") as f:
             json.dump(self.to_dict(), f, indent=4)
 
     def to_dict(self):
-        """将树转换为字典格式"""
+        """Convertir le Trie en format dictionnaire"""
         return self.root.to_dict() if self.root else {}
     
     @classmethod
     def from_dict(cls, data):
         """
-        从字典加载树。
-        如果字典为空（即 {}），返回一个新的空树。
+        Charger un Trie à partir d’un dictionnaire.
+        Si le dictionnaire est vide ({}), retourner un Trie vide.
         """
         if not data or data == {}:  # 处理空字典
             return cls()
@@ -291,7 +293,7 @@ class HybridTrie:
 
     @classmethod
     def from_json(cls, file_path):
-        """从 JSON 文件加载树"""
+        """Charger un Trie depuis un fichier JSON"""
         with open(file_path, "r") as f:
             data = json.load(f)
         trie = cls()
@@ -299,7 +301,7 @@ class HybridTrie:
         return trie
     
     def is_unbalanced(self, depth_threshold=3, balance_threshold=2):
-        """判断树是否失衡"""
+        """Vérifier si l'arbre est déséquilibré"""
         max_depth = self.hauteur()
         avg_depth = self.profondeur_moyenne()
         if avg_depth == 0:
@@ -321,13 +323,13 @@ class HybridTrie:
         return max_depth / avg_depth > balance_threshold or depth_difference > depth_threshold
 
     def rebalance(self):
-        """重新平衡树"""
+        """Rééquilibrer l'arbre"""
         words = self.liste_mots()
         words = sorted(set(words))  # 确保去重并排序
         self.root = self._build_balanced_tree(words, 0, len(words) - 1)
 
     def _build_balanced_tree(self, words, start, end):
-        """构建平衡树"""
+        """Construire un arbre équilibré"""
         if start > end:
             return None
 
@@ -342,7 +344,7 @@ class HybridTrie:
         return root
 
     def _build_tree_from_word(self, word):
-        """从单个单词构建一条链式子树"""
+        """Construire une sous-arbre en chaîne à partir d'un mot"""
         if not word:
             return None
         root = HybridTrieNode(word[0])
@@ -351,8 +353,8 @@ class HybridTrie:
         return root
 
     def insert_with_balance(self, word, depth_threshold=3, balance_threshold=2):
-        """插入单词并检测是否需要重新平衡"""
-        if word not in self.liste_mots():  # 避免重复插入
+        """Insérer un mot et vérifier si un rééquilibrage est nécessaire"""
+        if word not in self.liste_mots():  # Éviter les insertions répétées
             self.insert(word)
         if self.is_unbalanced(depth_threshold, balance_threshold):
             self.rebalance()
@@ -362,29 +364,29 @@ class HybridTrie:
 
 
 if __name__ == "__main__":
-    # 示例句子
+    # Exemple de phrase
     sentence = """
     A quel genial professeur de dactylographie sommes nous redevables de la superbe phrase ci-dessous,
     un modele du genre, que toute dactylo connait par coeur puisque elle fait appel a chacune des touches
     du clavier de la machine a ecrire ?
     """
 
-    # 清理和标准化输入
+    # Nettoyer et normaliser les entrées
     words = re.findall(r'\b[a-z]+\b', sentence.lower())  # 提取 ASCII 范围内的单词
 
-    # 构建混合 Trie
+    # Construire le Trie hybride
     trie = HybridTrie()
     for word in words:
         trie.insert(word)
 
-    # 创建结果文件夹
+    # Créer le dossier de résultats
     result_folder = "result"
     os.makedirs(result_folder, exist_ok=True)
 
-    # 保存为 JSON 文件
+    # Sauvegarder sous forme de fichier JSON
     json_file_path = os.path.join(result_folder, "exemple_base.json")
     trie.to_json(json_file_path)
-    print(f"Hybrid Trie 已成功保存为 '{json_file_path}'")
+    print(f"Le Trie hybride a été sauvegardé avec succès sous '{json_file_path}'")
 
 
 

@@ -4,24 +4,24 @@ import json
 import sys
 import matplotlib.pyplot as plt
 
-# 添加 HybridTrie 模块路径
+# Ajouter le chemin du module HybridTrie
 sys.path.append("../Hybrid_trie")
 from hybrid_trie import HybridTrie
 
-# 更新路径
-input_folder = "./Shakespeare"  # Shakespeare 文件夹路径
-output_folder = "./result"      # 输出结果的文件夹
-test_file = "./test/word.txt"  # 新单词的测试文件路径
+# Définir les chemins
+input_folder = "./Shakespeare"  # Chemin du dossier contenant les fichiers Shakespeare
+output_folder = "./result"      # Dossier pour les résultats
+test_file = "./test/word.txt"  # Chemin du fichier de test pour les nouveaux mots
 os.makedirs(output_folder, exist_ok=True)
 
-# 初始化计时器和结果
+# Initialiser les chronomètres et les résultats
 file_results = {}
 
-# Hybrid Trie 测试
+# Test de Hybrid Trie
 print("Constructing Hybrid Trie...")
 overall_trie = HybridTrie()
 start_time_total = time.time()
- # 存储 single_patricia 的总构建时间
+ # Temps total de construction pour le Patricia global
 overall_patricia_total_time = 0
 
 for filename in os.listdir(input_folder):
@@ -31,7 +31,7 @@ for filename in os.listdir(input_folder):
         single_trie = HybridTrie()
         single_patricia_total_time = 0
 
-        # 重置计数器
+        # Réinitialiser le compteur d'opérations
         single_trie.operation_count = {
             "insert_comparisons": 0,
             "search_comparisons": 0,
@@ -41,35 +41,35 @@ for filename in os.listdir(input_folder):
         file_start_time = time.time()
         word_count = 0
 
-        # 插入单词
+        # Insérer des mots
         with open(file_path, "r") as file:
             for line in file:
-                word = line.strip().lower()  # 预处理单词
+                word = line.strip().lower()  # Prétraiter le mot
                 if word:
-                    # 记录 single_patricia 的插入时间
+                    # Enregistrer le temps d'insertion pour single_patricia
                     start_time = time.time()
-                    single_trie.insert(word)  # 插入当前文件的 Patricia Trie
+                    single_trie.insert(word)  # Insérer dans le Patricia Trie pour le fichier actuel
                     end_time = time.time()
                     single_patricia_total_time += (end_time - start_time)
 
-                    # 记录 overall_patricia 的插入时间
+                    # Enregistrer le temps d'insertion pour overall_patricia
                     start_time = time.time()
-                    overall_trie.insert(word)  # 插入到总体 Patricia Trie
+                    overall_trie.insert(word)  # Insérer dans le Patricia Trie global
                     end_time = time.time()
                     overall_patricia_total_time += (end_time - start_time)
 
                     word_count += 1
         operation_count=single_trie.operation_count
 
-        # 搜索测试
+        # Test de recherche
         with open(file_path, "r") as file:
             for line in file:
                 word = line.strip().lower()
                 if word:
                     single_trie.recherche(word)
 
-        # 插入新单词并记录时间
-        # 读取测试单词
+        # Insérer de nouveaux mots et enregistrer le temps
+        # Lire les mots de test
         with open(test_file, "r") as f:
             test_words = [line.strip().lower() for line in f if line.strip()]
         for word in test_words:
@@ -77,28 +77,28 @@ for filename in os.listdir(input_folder):
             single_trie.insert(word)
             end_time = time.time()
             insertion_times= end_time - start_time
-        # 删除测试
+        # Test de suppression
         with open(test_file, "r") as file:
             for line in file:
                 word = line.strip().lower()
                 if word:
-                    single_trie.suppression(word)  # 删除操作
+                    single_trie.suppression(word)  # Opération de suppression
 
-        # 删除测试并记录时间
+        # Test de suppression avec enregistrement du temps
         delete_times = []
         with open(test_file, "r") as file:
             for line in file:
                 word = line.strip().lower()
                 if word:
-                    start_time = time.time()  # 开始时间
-                    single_trie.suppression(word)  # 删除操作
-                    end_time = time.time()  # 结束时间
-                    delete_times.append(end_time - start_time)  # 记录每次删除的时间
+                    start_time = time.time()  # Heure de début
+                    single_trie.suppression(word)  # Opération de suppression
+                    end_time = time.time()  # Heure de fin
+                    delete_times.append(end_time - start_time)  # Enregistrer le temps de suppression
 
-        # 计算总删除时间
+        # Calculer le temps total de suppression
         total_delete_time = sum(delete_times)
 
-        # 保存当前文件的结果
+        # Enregistrer les résultats pour le fichier actuel
         file_results[filename] = {
             "Word Count": word_count,
             "Single Construction Time (seconds)": single_patricia_total_time,
@@ -115,7 +115,7 @@ for filename in os.listdir(input_folder):
 
 total_end_time = time.time()
 
-# 统计总体结果
+# Résultats globaux
 overall_results = {
     "Total Word Count": sum([result["Word Count"] for result in file_results.values()]),
     "Total Construction Time (seconds)": sum([result["Single Construction Time (seconds)"] for result in file_results.values()]),
@@ -123,7 +123,7 @@ overall_results = {
     "Overall Average Depth": overall_trie.profondeur_moyenne(),
 }
 
-# 保存到 JSON 文件
+# Sauvegarder dans un fichier JSON
 with open(os.path.join(output_folder, "file_results.json"), "w") as file_result_file:
     json.dump(file_results, file_result_file, indent=4)
 
