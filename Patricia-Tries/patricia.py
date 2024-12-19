@@ -35,7 +35,7 @@ class PatriciaTrie:
                     counter_dict=self.operation_count,
                     counter_key="insert_comparisons"
                 )
-                self.operation_count["insert_comparisons"] += len(prefix)  # 字符逐个比较
+                #self.operation_count["insert_comparisons"] += len(prefix)
 
                 if prefix == child.label:
                     # Correspondance parfaite, passer au nœud suivant.
@@ -259,9 +259,6 @@ def prefixe(arbre, mot):
                 return comptage_mots(new_arbre)
             else:
                 return 0
-
-
-
     # 匹配成功，从当前节点开始统计单词数量
     new_arbre = PatriciaTrie()
     new_arbre.root = node
