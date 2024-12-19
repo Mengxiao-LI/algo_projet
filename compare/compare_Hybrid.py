@@ -77,7 +77,7 @@ for filename in os.listdir(input_folder):
             single_trie.insert(word)
             end_time = time.time()
             insertion_times= end_time - start_time
-        # Test de suppression
+        cpt_sup=single_trie.operation_count["delete_comparisons"]
         with open(test_file, "r") as file:
             for line in file:
                 word = line.strip().lower()
@@ -85,6 +85,7 @@ for filename in os.listdir(input_folder):
                     single_trie.suppression(word)  # Opération de suppression
 
         # Test de suppression avec enregistrement du temps
+        single_trie.operation_count["delete_comparisons"]=cpt_sup
         delete_times = []
         with open(test_file, "r") as file:
             for line in file:

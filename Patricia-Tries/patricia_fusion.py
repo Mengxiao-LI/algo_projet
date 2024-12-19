@@ -4,16 +4,16 @@ from patricia import PatriciaTrie, json_to_patricia_trie, fusion, liste_mots
 
 
 def main():
-    # 检查参数是否正确
+
     if len(sys.argv) < 3:
         print("Usage: python patricia_fusion.py <input_file1> <input_file2>")
         sys.exit(1)
 
-    input_dir1 = sys.argv[1]  # 第一个 JSON 文件路径
-    input_dir2 = sys.argv[2]  # 第二个 JSON 文件路径
-    output_dir = "Patricia-Tries/result/pat.json"  # 输出文件路径
+    input_dir1 = sys.argv[1]  # first json file
+    input_dir2 = sys.argv[2]  #second json file
+    output_dir = "Patricia-Tries/result/pat.json"  # output file
 
-    # 从第一个 JSON 文件加载 Patricia Trie
+    # first json to patricia tries
     try:
         with open(input_dir1, "r", encoding="utf-8") as f:
             trie_data1 = json.load(f)
@@ -27,7 +27,7 @@ def main():
         print(f"Error decoding JSON from {input_dir1}: {e}")
         sys.exit(1)
 
-    # 从第二个 JSON 文件加载 Patricia Trie
+    # second to Patricia Trie
     try:
         with open(input_dir2, "r", encoding="utf-8") as f:
             trie_data2 = json.load(f)
@@ -41,7 +41,7 @@ def main():
         print(f"Error decoding JSON from {input_dir2}: {e}")
         sys.exit(1)
 
-    # 合并两个 Patricia-Tries
+    # fusion
     try:
         print("Merging the Patricia-Tries...")
         merged_trie = fusion(trie1, trie2)
@@ -51,7 +51,7 @@ def main():
         print(f"Error during fusion: {e}")
         sys.exit(1)
 
-    # 将合并后的 Patricia Trie 保存为 JSON 文件
+    #  Patricia Trie to JSON file
     try:
         with open(output_dir, "w", encoding="utf-8") as f:
             json.dump(merged_trie.to_dict(), f, indent=4)

@@ -2,30 +2,37 @@
     "label": "",
     "is_end_of_word": false,
     "children": {
-        "b": {
-            "label": "bat",
-            "is_end_of_word": true,
-            "children": {}
-        },
         "c": {
             "label": "ca",
             "is_end_of_word": false,
             "children": {
                 "r": {
                     "label": "r",
-                    "is_end_of_word": true,
+                    "is_end_of_word": false,
                     "children": {
-                        "t": {
-                            "label": "t",
+                        "r": {
+                            "label": "",
                             "is_end_of_word": true,
-                            "children": {}
+                            "children": {
+                                "t": {
+                                    "label": "t",
+                                    "is_end_of_word": true,
+                                    "children": {}
+                                }
+                            }
                         }
                     }
                 },
                 "t": {
                     "label": "t",
-                    "is_end_of_word": true,
-                    "children": {}
+                    "is_end_of_word": false,
+                    "children": {
+                        "t": {
+                            "label": "",
+                            "is_end_of_word": true,
+                            "children": {}
+                        }
+                    }
                 }
             }
         },

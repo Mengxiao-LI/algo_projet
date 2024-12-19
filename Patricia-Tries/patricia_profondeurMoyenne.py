@@ -3,16 +3,14 @@ import json
 from patricia import PatriciaTrie, json_to_patricia_trie, profondeurMoyenne
 
 def main():
-    # 检查参数是否正确
     if len(sys.argv) < 2:
         print("Usage: python patricia_profondeurMoyenne.py <json_file>")
         sys.exit(1)
 
-    # 输入文件路径
+
     input_file = sys.argv[1]
     output_file = "Patricia-Tries/result/profondeur.txt"
 
-    # 从 JSON 文件加载 Patricia-Trie
     try:
         with open(input_file, "r", encoding="utf-8") as f:
             trie_data = json.load(f)
