@@ -1,6 +1,0 @@
-{
-    "python.analysis.extraPaths": [
-        "/Users/yangxue/opt/anaconda3/bin/python",
-        "./Hybrid_trie"
-    ]
-}
